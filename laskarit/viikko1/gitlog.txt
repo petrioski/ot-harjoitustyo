@@ -1,0 +1,131 @@
+commit ddcf5850d664e21abb6426edcec6b14f26a90e46
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:29:30 2019 +0200
+
+    lisää muutoksia
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 61703f8ffbdcd4590cdba082669adce85e80ffff
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:28:31 2019 +0200
+
+    tiedosto 3
+
+ tiedostoja/file3 | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit f366aec1c321f31f62ea5330b821870dd26d9f5c
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:26:26 2019 +0200
+
+    uusi hakemisto
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 78e00d7f4d89bb1a2ae810e3b71a4439da6c2274
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:24:06 2019 +0200
+
+    kolmas.txt riimit lisätty
+
+ kolmas.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 92155b0b51c67858557f3ed9570a773bd99800aa
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:19:45 2019 +0200
+
+    sisällön muokkausta
+
+ eka.txt    | 6 ++++--
+ kolmas.txt | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+commit 705c2da321ae2f961a48566b3a9dbb3dece4ed7e
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:17:23 2019 +0200
+
+    nimi vaihdettu
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit fdef50c350128b34c029b486370d15cf16120e2d
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:16:11 2019 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit e39c491af713a450ab92ac21328b6fe60a9492e5
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:12:12 2019 +0200
+
+    tekstin poistoa ja lisäystä
+
+ tiedosto.txt | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+
+commit cae5633c582bd4028bd2f8c2fbac3f4761482863
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:10:36 2019 +0200
+
+    paljon tekstiä lisätty
+
+ tiedosto.txt | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+commit e4fc84dd7ce1eae61ac3965e5cf88905753d2ead
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:04:19 2019 +0200
+
+    stuff hakemisto luotu
+
+ stuff/uusiTiedosto.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 4b22dbedba77beeaaf726ddbc2c3e803daddc8ea
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:02:39 2019 +0200
+
+    tekstiä lisätty
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 4752c0031eeed531d7c346a70048b4463746bf37
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 15:00:09 2019 +0200
+
+    kolmas.txt lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 83b7579f92a2be8f9a23ad470df7434926419888
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 14:57:41 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 2 ++
+ toinen.txt   | 0
+ 2 files changed, 2 insertions(+)
+
+commit c85c3228a983a6dcde89c1a4843efe92e36ef6ca
+Author: Petri Karhunkoski <petri.karhunkoski@gmail.com>
+Date:   Sat Mar 16 14:54:54 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
