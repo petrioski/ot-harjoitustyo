@@ -4,6 +4,6 @@
 
 ### Viikko 1
 
-gitlog.txt
+[gitlog.txt](https://github.com/petrioski/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
-komentorivi.txt
+[komentorivi.txt](https://github.com/petrioski/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
