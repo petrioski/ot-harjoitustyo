@@ -129,3 +129,5 @@ Date:   Sat Mar 16 14:54:54 2019 +0200
 
  tiedosto.txt | 0
  1 file changed, 0 insertions(+), 0 deletions(-)
+ 
+ etärepon muutos, konfliktia varten
