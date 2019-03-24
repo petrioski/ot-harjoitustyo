@@ -18,7 +18,7 @@ Sovelluksella on referenssiprojektin tapaan normaalikäyttäjän rooli. Lisäksi
     * tehtävän voi merkitä yksityiseksi tai ryhmälle
 * käyttäjä voi merkitä työn tehdyksi
 
-##Jatkokehitysideoita
+## Jatkokehitysideoita
 * tehtävistä voi luoda kalenteritapahtuman ".ical"-tiedoston
 * salasanojen säilöminen salattuna
 * lisää muokkausmahdollisuus luoduille tehtäville
