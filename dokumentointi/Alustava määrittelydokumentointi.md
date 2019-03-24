@@ -1,10 +1,10 @@
-##Sovelluksen tarkoitus
+## Sovelluksen tarkoitus
 Sovelluksen avulla on tarkoitus pitää kirjaa kotitöistä ja automatisoida usein toistuvien töiden vuorottelua tasaisemman 
 
-##Käyttäjät
+## Käyttäjät
 Sovelluksella on referenssiprojektin tapaan normaalikäyttäjän rooli. Lisäksi sovelluksessa on ryhmärooli. Rekisteröitynyt käyttäjä voi luoda uuden ryhmän ja kutsua muita siihen tai liittyä itse aiemmin perustettuun ryhmään.
 
-##Suunnitellut toiminnallisuudet
+## Suunnitellut toiminnallisuudet
 ### Ennen kirjautumista
 * Käyttäjä voi luoda tunnuksen järjestelmään
 * Käyttäjä voi kirjautua järjestelmään
