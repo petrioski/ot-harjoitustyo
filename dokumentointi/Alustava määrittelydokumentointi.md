@@ -1,5 +1,5 @@
 ## Sovelluksen tarkoitus
-Sovelluksen avulla on tarkoitus pitää kirjaa kotitöistä ja automatisoida usein toistuvien töiden vuorottelua tasaisemman 
+Sovelluksen avulla on tarkoitus pitää kirjaa kotitöistä. Sovelluksen avulla voi automatisoida usein toistuvien töiden vuorottelua sekä  jakaa kotitöitä tasaisemmin. Kysymyksessä siis eräänlainen kustomoitu todo-sovellus.
 
 ## Käyttäjät
 Sovelluksella on referenssiprojektin tapaan normaalikäyttäjän rooli. Lisäksi sovelluksessa on ryhmärooli. Rekisteröitynyt käyttäjä voi luoda uuden ryhmän ja kutsua muita siihen tai liittyä itse aiemmin perustettuun ryhmään.
@@ -17,6 +17,7 @@ Sovelluksella on referenssiprojektin tapaan normaalikäyttäjän rooli. Lisäksi
         * niille määritellään toistumistiheys
     * tehtävän voi merkitä yksityiseksi tai ryhmälle
 * käyttäjä voi merkitä työn tehdyksi
+* 
 
 ## Jatkokehitysideoita
 * tehtävistä voi luoda kalenteritapahtuman ".ical"-tiedoston
@@ -25,3 +26,4 @@ Sovelluksella on referenssiprojektin tapaan normaalikäyttäjän rooli. Lisäksi
     * lisää tehtävä ryhmälle
     * vaihda 
 * lisää suotimia / tageja tehtäville
+* pidemmällä aikavälillä (kurssin jälkeen) mahdollisesti siirto android-sovellukseen.
