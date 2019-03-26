@@ -15,9 +15,10 @@ Sovelluksella on referenssiprojektin tapaan normaalikäyttäjän rooli. Lisäksi
 * käyttäjä voi lisätä uusia tehtäviä
     * uudet tehtävät voi merkitä toistuviksi
         * niille määritellään toistumistiheys
+        * tehdyiksi merkityt tulevat todo-listalle automaattisesti x päivän jälkeen
     * tehtävän voi merkitä yksityiseksi tai ryhmälle
 * käyttäjä voi merkitä työn tehdyksi
-* 
+
 
 ## Jatkokehitysideoita
 * tehtävistä voi luoda kalenteritapahtuman ".ical"-tiedoston
