@@ -5,6 +5,9 @@
  */
 package familytodo.familytodo;
 
+import domain.User;
+import domain.Todo;
+
 /**
  *
  * @author karhunko
@@ -18,6 +21,15 @@ public class familyToDo {
         // TODO code application logic here
         String tervehdys = "ohjelma käynnistyi";
         System.out.println(tervehdys);
+        User person = new User("Testi Kayttaja", "testiK");
+        
+        Todo task1 = new Todo("imuroi", person);
+        task1.setCompleted();
+        
+        System.out.println(task1.toString());
+        
+        
+        
     }
     
 }
