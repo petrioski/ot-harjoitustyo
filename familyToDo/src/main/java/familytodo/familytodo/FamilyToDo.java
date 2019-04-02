@@ -12,7 +12,7 @@ import domain.Todo;
  *
  * @author karhunko
  */
-public class familyToDo {
+public class FamilyToDo {
 
     /**
      * @param args the command line arguments
