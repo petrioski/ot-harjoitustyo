@@ -3,8 +3,16 @@
         <action>
             <actionName>CUSTOM-testikattavuus</actionName>
             <displayName>testikattavuus</displayName>
+            <preAction>build-with-dependencies</preAction>
             <goals>
                 <goal>jacoco:report</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-teskas</actionName>
+            <displayName>teskas</displayName>
+            <goals>
+                <goal>test-compile</goal>
             </goals>
         </action>
     </actions>

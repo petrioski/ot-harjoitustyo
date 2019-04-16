@@ -36,6 +36,8 @@ public class User {
         this.username = username;
     }
     
-    
+    public String toString() {
+        return this.username;
+    }
     
 }
