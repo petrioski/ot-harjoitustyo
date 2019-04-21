@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class FamilyToDo extends Application {
     //private Scene loginScene;
-    private openTasksScreen tasks;
+    private OpenTasksScreen tasks;
     
     ArrayList<String> lista = new ArrayList();
     Boolean ok = false;
@@ -37,7 +37,7 @@ public class FamilyToDo extends Application {
         int heigth = 400;
         
         //construct required screens
-        tasks = new openTasksScreen(lista);
+        tasks = new OpenTasksScreen(lista);
         LoginScreen login = new LoginScreen(lista);
         CreateNewUser newUser = new CreateNewUser(lista);
         
@@ -107,7 +107,7 @@ public class FamilyToDo extends Application {
     
     @Override
     public void stop() {      
-      System.out.println("sovellus sulkeutuu");
+        System.out.println("sovellus sulkeutuu");
     } 
     
     protected void displayInitialScene() {
@@ -126,9 +126,7 @@ public class FamilyToDo extends Application {
         
         RecurringTodo task2 = new RecurringTodo("tee tiskit", person, 1);
 
-        System.out.println(task1.toString());
-        System.out.println("jee");
-        System.out.println(task2.toString());
+        
         
         
         

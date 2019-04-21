@@ -80,7 +80,9 @@
     </module>
 
     <!-- File Length -->
-
+    <module name="SuppressionFilter">
+        <property name="file" value="skipped_files.xml" />
+    </module>
     <module name='FileLength'>
         <property name='max' value='500' />
     </module>

@@ -36,20 +36,20 @@ import javafx.scene.text.Font;
  *
  * @author karhunko
  */
-public class openTasksScreen {
+public class OpenTasksScreen {
     
     private ArrayList<String> lista;
     private ArrayList<Todo> tasks;
     private VBox taskQueue;   
     private User loggedIn;
     
-    public openTasksScreen(ArrayList<String> lista) {
+    public OpenTasksScreen(ArrayList<String> lista) {
         this.lista = lista;
         this.tasks = new ArrayList<>();
         taskQueue = new VBox();
         this.loggedIn = new User("pete", "petri-man");
         Todo pyykit = new Todo("pese pyykit", loggedIn);
-        pyykit.changeDueDate(LocalDate.of(2019,04,16));
+        pyykit.changeDueDate(LocalDate.of(2019, 04, 16));
         Todo laksyt = new Todo("tee läksyt", loggedIn);
         laksyt.changeDueDate(LocalDate.parse("2019-04-17"));
         laksyt.setCompleted();
@@ -128,7 +128,7 @@ public class openTasksScreen {
                     
                 }
                 getOpenTaskScreen();
-           } 
+            } 
         });
         
         

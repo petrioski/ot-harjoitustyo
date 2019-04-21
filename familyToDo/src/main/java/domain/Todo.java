@@ -81,15 +81,31 @@ public class Todo implements TodoDao, Comparable<Todo> {
     
     @Override
     public int compareTo(Todo next) {
-        if (this.isCompleted().equals(next.isCompleted())) {
+        if (this.isCompleted() && !next.isCompleted()) {
+            return 1;
+        } else if (!this.isCompleted() && next.isCompleted()) {
+            return -1;
+        // done tasks
+        } else if (this.isCompleted() && next.isCompleted()) {             
+            // first by done date
+            if (this.doneDate.equals(next.doneDate)) {
+                // then by due date
+                if (this.dueDate.equals(next.dueDate)) {
+                    // finally by name
+                    return this.task.compareTo(next.task);
+                }
+                return -1 * dueDate.compareTo(next.dueDate);
+            } else {                
+                return -1 * doneDate.compareTo(next.doneDate);
+            }                                        
+        // both undone
+        } else {
             if (this.dueDate.equals(next.dueDate)) {
+                // finally by name
                 return this.task.compareTo(next.task);
             }
-            return this.dueDate.compareTo(next.dueDate);                    
-        } else if (this.isCompleted() && !next.isCompleted()) {
-            return 1;
-        }
-        return -1;
+            return this.dueDate.compareTo(next.dueDate);
+        }        
     }
     
     /**
@@ -124,17 +140,18 @@ public class Todo implements TodoDao, Comparable<Todo> {
         if (!isCompleted()) {
             setCompleted();
         } else {
-            this.completed = !this.completed;
+            this.completed = false;
+            this.doneDate = null;
             changeDueDate(LocalDate.now().plusDays(2));
         }
         
     }
     
-    @Override
-    public String toString() {
-        return "Todo{" + "task=" + task + ", endDate=" + dueDate 
-                + ", startDate=" + startDate + ", doneDate=" + doneDate 
-                + ", completed=" + completed + ", user=" + user.toString() + '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Todo{" + "task=" + task + ", endDate=" + dueDate 
+//                + ", startDate=" + startDate + ", doneDate=" + doneDate 
+//                + ", completed=" + completed + ", user=" + user.toString() + '}';
+//    }
     
 }

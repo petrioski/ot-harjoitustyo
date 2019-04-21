@@ -92,8 +92,8 @@ public class LoginScreen {
 
                 String sana = "";
                 for (int i = 0; i < lista.size(); i++) {
-                            sana += lista.get(i) + "\n";
-                        }
+                    sana += lista.get(i) + "\n";
+                }
 
                 rec.setText(sana);
                 return;
