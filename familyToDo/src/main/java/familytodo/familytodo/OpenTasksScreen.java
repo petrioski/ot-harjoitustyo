@@ -8,13 +8,13 @@ package familytodo.familytodo;
 
 import domain.RecurringTodo;
 import domain.Todo;
+import domain.TodoService;
 import domain.User;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -38,28 +38,16 @@ import javafx.scene.text.Font;
  */
 public class OpenTasksScreen {
     
-    private ArrayList<String> lista;
-    private ArrayList<Todo> tasks;
+    private TodoService lista;
+    private List<Todo> tasks;
     private VBox taskQueue;   
     private User loggedIn;
     
-    public OpenTasksScreen(ArrayList<String> lista) {
+    public OpenTasksScreen(TodoService lista) {
         this.lista = lista;
-        this.tasks = new ArrayList<>();
+        this.loggedIn = lista.getCurrentUser();
+        this.tasks = lista.getOpenAndRecentlyDone();
         taskQueue = new VBox();
-        this.loggedIn = new User("pete", "petri-man");
-        Todo pyykit = new Todo("pese pyykit", loggedIn);
-        pyykit.changeDueDate(LocalDate.of(2019, 04, 16));
-        Todo laksyt = new Todo("tee läksyt", loggedIn);
-        laksyt.changeDueDate(LocalDate.parse("2019-04-17"));
-        laksyt.setCompleted();
-        RecurringTodo petaus = new RecurringTodo("petaa sänky", loggedIn, 1);
-        this.tasks.add(new Todo("imuroi", loggedIn));
-        this.tasks.add(new Todo("tee tiskit", loggedIn));
-        this.tasks.add(new Todo("pyyhi pölyt", loggedIn));
-        this.tasks.add(laksyt);
-        this.tasks.add(pyykit); 
-        this.tasks.add(petaus);
         
     }
     

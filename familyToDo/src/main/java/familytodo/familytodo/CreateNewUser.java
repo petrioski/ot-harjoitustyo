@@ -6,6 +6,7 @@
 
 package familytodo.familytodo;
 
+import domain.TodoService;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,9 +25,9 @@ import javafx.scene.paint.Color;
  */
 public class CreateNewUser {
     
-    private ArrayList<String> lista;
+    private TodoService lista;
 
-    public CreateNewUser(ArrayList<String> lista) {
+    public CreateNewUser(TodoService lista) {
         this.lista = lista;
     }
     
@@ -89,16 +90,16 @@ public class CreateNewUser {
                 passInputCheck.clear();
             } else {
                 String received = "{" + user + " : " + pass + "}";
-                lista.add(received);
+//                lista.add(received);
                 
                 username.clear();
                 passInput.clear();
                 passInputCheck.clear();
                 
                 String sana = "";
-                for (int i = 0; i < lista.size(); i++) {
-                    sana += lista.get(i) + "\n";
-                }
+//                for (int i = 0; i < lista.size(); i++) {
+//                    sana += lista.get(i) + "\n";
+//                }
                 rec.setTextFill(Color.BLACK);
                 rec.setText(sana);
             }

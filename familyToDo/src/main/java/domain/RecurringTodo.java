@@ -1,9 +1,9 @@
 package domain;
 
-import dao.RecurringTodoDao;
+
 import java.time.LocalDate;
 
-public class RecurringTodo extends Todo implements RecurringTodoDao {
+public class RecurringTodo extends Todo  {
     private int recurringInterval;
 
     public RecurringTodo(String task, User user) {
@@ -16,16 +16,16 @@ public class RecurringTodo extends Todo implements RecurringTodoDao {
         recurringInterval = days;
     }
     
+    // Näkyys yhden päivän aikana tehtynä
     @Override
     public Boolean isCompleted() {
         if (super.isCompleted()) {
             if (super.getDoneDate().equals(LocalDate.now())) {
                 return true;
             }
-        } else {
-            return false;
         }
         return false;
+          
     }
     
     @Override
@@ -35,7 +35,7 @@ public class RecurringTodo extends Todo implements RecurringTodoDao {
         //super.toggleCompleted();
     }
     
-    @Override
+    
     public void setRecurringInterval(int days) throws Exception {
         this.recurringInterval = days;
     }

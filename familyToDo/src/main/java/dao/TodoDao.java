@@ -1,10 +1,11 @@
 package dao;
 
+import domain.Todo;
 import java.time.LocalDate;
 
 //import domain.Todo;
 
-public interface TodoDao {
+public interface TodoDao extends  Dao<Todo, Integer> {
     //Todo create(Todo todo) throws Exception;
 
     void setCompleted() throws Exception;

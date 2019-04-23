@@ -7,13 +7,13 @@ package domain;
 
 import java.time.LocalDate;
 
-import dao.TodoDao;
+
 
 /**
  *
  * @author karhunko
  */
-public class Todo implements TodoDao, Comparable<Todo> {    
+public class Todo implements Comparable<Todo> {    
     private String task;
     private LocalDate dueDate;
     private LocalDate startDate;
@@ -41,6 +41,7 @@ public class Todo implements TodoDao, Comparable<Todo> {
         return task;
     }
 
+    
     public void changeTaskName(String task) {
         this.task = task;
     }
@@ -65,7 +66,7 @@ public class Todo implements TodoDao, Comparable<Todo> {
         return completed;
     }
 
-    @Override
+    
     public void setCompleted() {
         this.completed = true;
         this.doneDate = LocalDate.now();
@@ -79,7 +80,7 @@ public class Todo implements TodoDao, Comparable<Todo> {
         this.user = user;
     }
     
-    @Override
+    
     public int compareTo(Todo next) {
         if (this.isCompleted() && !next.isCompleted()) {
             return 1;
@@ -153,5 +154,7 @@ public class Todo implements TodoDao, Comparable<Todo> {
 //                + ", startDate=" + startDate + ", doneDate=" + doneDate 
 //                + ", completed=" + completed + ", user=" + user.toString() + '}';
 //    }
+
+    
     
 }

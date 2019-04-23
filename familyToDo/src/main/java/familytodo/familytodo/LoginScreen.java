@@ -6,7 +6,10 @@
 
 package familytodo.familytodo;
 
+import domain.TodoService;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -26,12 +29,12 @@ import javafx.stage.Stage;
  */
 public class LoginScreen {
     
-    private ArrayList<String> lista;
+    private TodoService lista;
     private Boolean inessa;
     private Scene taskit;
     private Stage window;
     
-    public LoginScreen(ArrayList<String> lista) {
+    public LoginScreen(TodoService lista) {
         this.lista = lista;
         inessa = false;
 //        taskit = loggedIn;
@@ -83,26 +86,32 @@ public class LoginScreen {
             String user = username.getText();
             String pass = passInput.getText();
             
-            if (!user.trim().equals("anna")) {
-                String received = "{" + user + " : " + pass + "}";
-                lista.add(received);
-
-                username.clear();
-                passInput.clear();
-
-                String sana = "";
-                for (int i = 0; i < lista.size(); i++) {
-                    sana += lista.get(i) + "\n";
-                }
-
-                rec.setText(sana);
-                return;
-                
+            
+            boolean successLogin = false;
+            try {
+                successLogin = lista.login(user, pass);
+            } catch (Exception ex) {
+                System.out.println("Exepction tapahtui");
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            if (!successLogin) {
+                    username.clear();
+                    passInput.clear();
+
+                    String sana = "Väärä salasana";
+
+
+                    rec.setText(sana);
+                    return;
+            } 
             
             inessa = true;
             rec.setText("jotain " + inessa);
             window.setScene(taskit);
+
+            
+            
         });
         
         return loginGroup;

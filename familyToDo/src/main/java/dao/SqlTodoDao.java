@@ -1,0 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dao;
+
+import domain.RecurringTodo;
+import domain.Todo;
+import domain.User;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.layout.VBox;
+
+/**
+ *
+ * @author karhunko
+ */
+public class SqlTodoDao implements TodoDao {
+    private List<Todo> tasks;
+    private User loggedIn;
+                
+    public SqlTodoDao() {
+        this.tasks = new ArrayList<>();
+        
+        this.loggedIn = new User("pete", "petri-man", "pass111");
+        Todo pyykit = new Todo("pese pyykit", loggedIn);
+        pyykit.changeDueDate(LocalDate.of(2019, 04, 16));
+        Todo laksyt = new Todo("tee läksyt", loggedIn);
+        laksyt.changeDueDate(LocalDate.parse("2019-04-17"));
+        laksyt.setCompleted();
+        RecurringTodo petaus = new RecurringTodo("petaa sänky", loggedIn, 1);
+        this.tasks.add(new Todo("imuroi", loggedIn));
+        this.tasks.add(new Todo("tee tiskit", loggedIn));
+        this.tasks.add(new Todo("pyyhi pölyt", loggedIn));
+        this.tasks.add(laksyt);
+        this.tasks.add(pyykit); 
+        this.tasks.add(petaus);
+    }
+    
+    
+    
+    @Override
+    public void setCompleted() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void changeTaskName(String task) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void changeDueDate(LocalDate date) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Todo findOne(Integer key) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Todo> findAll() throws Exception {
+        return this.tasks;
+    }
+
+    @Override
+    public Todo saveOrUpdate(Todo object) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(Integer key) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+}

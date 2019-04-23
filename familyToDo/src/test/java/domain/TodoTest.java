@@ -26,7 +26,7 @@ public class TodoTest {
     
     @Before
     public void setUp() {
-        testCase = new User("testPerson", "doWork");        
+        testCase = new User("testPerson", "doWork", "pass123");        
     }
     
     @Test

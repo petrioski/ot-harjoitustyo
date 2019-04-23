@@ -5,9 +5,13 @@
  */
 package familytodo.familytodo;
 
+import dao.SqlTodoDao;
+import dao.SqlUserDao;
+import dao.TodoDao;
 import domain.User;
 import domain.RecurringTodo;
 import domain.Todo;
+import domain.TodoService;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -27,9 +31,16 @@ import javafx.stage.Stage;
 public class FamilyToDo extends Application {
     //private Scene loginScene;
     private OpenTasksScreen tasks;
-    
+    private TodoService logic;
     ArrayList<String> lista = new ArrayList();
     Boolean ok = false;
+    
+    @Override
+    public void init() throws Exception {
+        SqlTodoDao todoDao = new SqlTodoDao();
+        SqlUserDao userDao = new SqlUserDao();
+        this.logic = new TodoService(todoDao, userDao);
+    }
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -37,9 +48,9 @@ public class FamilyToDo extends Application {
         int heigth = 400;
         
         //construct required screens
-        tasks = new OpenTasksScreen(lista);
-        LoginScreen login = new LoginScreen(lista);
-        CreateNewUser newUser = new CreateNewUser(lista);
+        tasks = new OpenTasksScreen(logic);
+        LoginScreen login = new LoginScreen(logic);
+        CreateNewUser newUser = new CreateNewUser(logic);
         
         TabPane tabs = new TabPane();
         Tab login1 = new Tab();
@@ -117,14 +128,8 @@ public class FamilyToDo extends Application {
     public static void main(String[] args) {
         // TODO code application logic here
         launch(args);
-        String tervehdys = "ohjelma käynnistyi";
-        System.out.println(tervehdys);
-        User person = new User("Testi Kayttaja", "testiK");
         
-        Todo task1 = new Todo("imuroi", person);
-        task1.setCompleted();
         
-        RecurringTodo task2 = new RecurringTodo("tee tiskit", person, 1);
 
         
         
