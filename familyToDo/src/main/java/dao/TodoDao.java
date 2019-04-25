@@ -2,6 +2,7 @@ package dao;
 
 import domain.Todo;
 import java.time.LocalDate;
+import java.util.List;
 
 //import domain.Todo;
 
@@ -14,6 +15,7 @@ public interface TodoDao extends  Dao<Todo, Integer> {
 
     void changeDueDate(LocalDate date) throws Exception;
     
+    List<Todo> findDone() throws Exception;
     
 }
 

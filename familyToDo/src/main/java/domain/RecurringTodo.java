@@ -16,7 +16,14 @@ public class RecurringTodo extends Todo  {
         recurringInterval = days;
     }
     
-    // Näkyys yhden päivän aikana tehtynä
+    // set recurring freq after task name
+    @Override
+    public String getTask() {
+        return super.getTask() + " (" + this.recurringInterval + " pv)";
+    }
+    
+    // Set recurring tasks status to be completed for the same day they 
+    // are done and to change status next day to uncompleted
     @Override
     public Boolean isCompleted() {
         if (super.isCompleted()) {

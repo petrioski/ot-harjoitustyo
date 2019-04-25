@@ -5,6 +5,8 @@
  */
 package domain;
 
+import java.util.Objects;
+
 /**
  *
  * @author karhunko
@@ -47,8 +49,36 @@ public class User {
         this.username = username;
     }
     
+    @Override
     public String toString() {
         return this.username;
+    }
+    
+    @Override
+    public boolean equals(Object user) {
+        if (this ==  user) {
+            return true;
+        }
+        
+        if (!(user instanceof User)) {
+            return false;
+        }
+        
+        User comparedUser = (User) user;
+        
+        if (this.name.equals(comparedUser.name) 
+            && this.username.equals(comparedUser.username)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.name);
+        hash = 29 * hash + Objects.hashCode(this.username);
+        return hash;
     }
     
 }

@@ -11,6 +11,7 @@ import domain.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.scene.layout.VBox;
 
 /**
@@ -19,12 +20,12 @@ import javafx.scene.layout.VBox;
  */
 public class SqlTodoDao implements TodoDao {
     private List<Todo> tasks;
-    private User loggedIn;
+    
                 
     public SqlTodoDao() {
         this.tasks = new ArrayList<>();
-        
-        this.loggedIn = new User("pete", "petri-man", "pass111");
+        User loggedIn;
+        loggedIn = new User("peteInit", "petri-man2", "pass111");
         Todo pyykit = new Todo("pese pyykit", loggedIn);
         pyykit.changeDueDate(LocalDate.of(2019, 04, 16));
         Todo laksyt = new Todo("tee läksyt", loggedIn);
@@ -65,7 +66,17 @@ public class SqlTodoDao implements TodoDao {
     public List<Todo> findAll() throws Exception {
         return this.tasks;
     }
-
+    
+    @Override
+    public List<Todo> findDone() throws Exception {
+        return this.tasks;
+    }
+    
+    @Override
+    public void addOne(Todo task) {
+        this.tasks.add(task);
+    }
+    
     @Override
     public Todo saveOrUpdate(Todo object) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

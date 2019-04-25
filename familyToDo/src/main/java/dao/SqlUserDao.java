@@ -20,10 +20,14 @@ public class SqlUserDao implements UserDao {
         this.users = new ArrayList<>();
         
         this.users.add(new User("pete", "petri-man", "pass10"));
-        this.users.add(new User("etep", "petri-man", "pass99"));
+        this.users.add(new User("etep", "petri-man99", "pass99"));
+        this.users.add(new User("peteInit", "petri-man2", "pass111"));
     }
     
-    
+    @Override
+    public void addOne(User user) {
+        this.users.add(user);
+    }
     
     @Override
     public User findByName(String user) throws Exception {

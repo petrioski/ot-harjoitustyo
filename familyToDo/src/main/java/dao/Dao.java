@@ -9,4 +9,5 @@ public interface Dao<T, K> {
     List<T> findAll() throws Exception;
     T saveOrUpdate(T object) throws Exception;
     void delete(K key) throws Exception;
+    void addOne(T object);
 }

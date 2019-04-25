@@ -3,8 +3,10 @@ package domain;
 
 import dao.TodoDao;
 import dao.UserDao;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TodoService {
     private TodoDao todoDao;
@@ -33,13 +35,55 @@ public class TodoService {
         if (currentUser == null) {
             return new ArrayList<>();
         }
+        List<Todo> current = new ArrayList<>();
         
-        return null;
+        try {
+            current = todoDao.findAll().stream()
+                    .filter(t -> t.getUser().equals(this.currentUser))
+                    .filter(t -> (!t.isCompleted() 
+                                  || t.getDoneDate().equals(LocalDate.now()))
+                                  )
+                    .collect(Collectors.toList());
+            
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        
+        return current;
     }
+    
+    
+    public List<Todo> getDoneTasks() {
+        if (currentUser == null) {
+            return new ArrayList<>();
+        }
+        List<Todo> current = new ArrayList<>();
+        
+        try {
+            current = todoDao.findAll().stream()
+                    .filter(t -> t.getUser().equals(this.currentUser))
+                    .filter(t -> t.isCompleted())
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        
+        return current;
+    }
+    
+    
+    
     
     public User getCurrentUser() {
         return this.currentUser;
     }
     
+    public void addNewTask(Todo task) {
+        try {
+            todoDao.addOne(task);
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+    }
     
 }

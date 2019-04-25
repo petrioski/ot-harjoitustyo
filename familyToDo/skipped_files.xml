@@ -5,8 +5,5 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress files="familytodo.familytodo.FamilyToDo.java" checks="[a-zA-Z0-9]*"/>
-    <suppress files="familytodo.familytodo.CreateNewUser.java" checks="[a-zA-Z0-9]*"/>
-    <suppress files="familytodo.familytodo.OpenTasksScreen.java" checks="[a-zA-Z0-9]*"/>
-    <suppress files="familytodo.familytodo.LoginScreen.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="ui.FamilyToDo.java" checks="[a-zA-Z0-9]*"/>    
 </suppressions>
