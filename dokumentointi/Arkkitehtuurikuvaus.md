@@ -6,7 +6,7 @@ Sovelluksessa on kolme luokkaa: käyttöliittymä, sovelluslogiikka ja tarvittav
 
 Ohjelma on tehty kerrosarkkitehtuurin periaatteita noudattaen ja näyttää tältä:
 
-![rakennekuva](/media/Arkkitehtuuri.png)
+![rakennekuva](media/Arkkitehtuuri.png)
 
 ## Käyttöliittymä
 
