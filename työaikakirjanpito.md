@@ -19,4 +19,5 @@
 | 24.4. | 2 | Käyttöliittymän parannusta (erilliset luokat ei toimineet, kaikki mainiin)
 | 25.4. | 4 | Käyttöliittymän hienosäätöä, JavaDocumentointia ja koodin siistimistä
 | 26.4. | 2 | JavaDocumentointia
-|       | 50| Yhteensä
+| 26.4. | 2 | Uusia testejä 
+|       | 52| Yhteensä
