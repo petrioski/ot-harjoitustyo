@@ -8,8 +8,8 @@ package domain;
 import java.util.Objects;
 
 /**
- *
- * @author karhunko
+ * Ohjelman käyttäjäoliosta vastaava luokka
+ * 
  */
 public class User {
     private String name;
@@ -18,7 +18,12 @@ public class User {
     /*add userId */
 
     
-
+    /**
+     * Metodi alustaa käyttäjä-olion uuden luonnin yhteydessä
+     * @param name nimi
+     * @param username käyttäjänimi
+     * @param password salasana
+     */
     public User(String name, String username, String password) {
         this.name = name;
         this.username = username;
@@ -53,6 +58,12 @@ public class User {
     public String toString() {
         return this.username;
     }
+    
+    /**
+     * Metodi vastaa User-olion vertailusta
+     * @param user verrattava olio
+     * @return palauttaa true, jos olio on sama, muuten false
+     */
     
     @Override
     public boolean equals(Object user) {

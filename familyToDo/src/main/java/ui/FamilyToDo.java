@@ -40,8 +40,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- *
- * @author karhunko
+ * Sovelluksen käyttöliittymästä vastaava luokka 
+ * 
  */
 public class FamilyToDo extends Application {
     
@@ -62,6 +62,10 @@ public class FamilyToDo extends Application {
                 
     private SingleSelectionModel<Tab> selectionModel = tabs.getSelectionModel();
     
+    /**
+     * Suorittaa alustavat toiminnot ohjelman käynnistyessä
+     * 
+     */
     
     @Override
     public void init() throws Exception {
@@ -70,6 +74,10 @@ public class FamilyToDo extends Application {
         this.logic = new TodoService(todoDao, userDao);        
     }
     
+    /**
+     * Sovelluksen aloitusnäkymä, josta pääsee kirjautumaan sisään tai
+     * luomaan uuden käyttäjän
+     */
     
     private Node getLoginScreen() {
                                                        
@@ -163,7 +171,9 @@ public class FamilyToDo extends Application {
     }
     
     
-    
+    /**
+     * Uuden käyttäjän luova näkymä
+     */
     
     // new user file transactions
     public Node getCreateUserScreen() {
@@ -255,7 +265,9 @@ public class FamilyToDo extends Application {
     }
     
             
-    
+    /**
+     * Näkymä listaa tehdyiksi merkityt tehtävät
+     */
             
     private Node getDoneTaskScreen() {
         // get user input for login
@@ -269,67 +281,6 @@ public class FamilyToDo extends Application {
         addTask.setHgap(5);
         addTask.setVgap(2);
         
-//        Label newTaskLabel = new Label("Lisää uusi tehtävä: ");
-//        newTaskLabel.setMinWidth(300);
-//        
-//        TextField taskName = new TextField();
-//        DatePicker deadline = new DatePicker();
-//        deadline.setMaxWidth(125);
-//        
-//        Label repeatText = new Label("Toistoväli: ");
-//        DatePicker nextOccurence = new DatePicker();
-//        nextOccurence.setMaxWidth(125);
-//        
-//        Button insertTask = new Button("Lisää!");
-        
-        //login testiä varten
-//        String nimi = "ei nimeä";
-//        if (this.logic.getCurrentUser() != null) {
-//            nimi = this.logic.getCurrentUser().getName();
-//        }
-//        Label userName = new Label(nimi);
-        
-//        addTask.setPadding(new Insets(5, 5, 5, 5));
-//        
-//        addTask.add(newTaskLabel, 0, 0, 2, 1);
-//        addTask.add(taskName, 1, 1, 2, 1);
-//        addTask.add(new Label("Määräpäivä:"), 2, 0);
-//        addTask.add(deadline, 2, 1);
-//        addTask.add(repeatText, 4, 0);
-//        addTask.add(nextOccurence, 4, 1);
-//        addTask.add(insertTask, 5, 1);
-//        addTask.add(userName, 6,1);
-        
-//        insertTask.setOnAction((event) -> {
-//            String task = taskName.getText().trim();
-//            if (task.length() >= 3) {               
-//                if (deadline.getValue() != null 
-//                        && nextOccurence.getValue() != null) {                   
-//                    long interval = DAYS.between(deadline.getValue()
-//                                            , nextOccurence.getValue());                           
-//                    RecurringTodo receivedTask = new RecurringTodo(task
-//                                            , logic.getCurrentUser(), (int) interval);
-//                    deadline.setValue(null);
-//                    nextOccurence.setValue(null);
-//                    taskName.clear();      
-//                    logic.addNewTask(receivedTask);
-//                    
-//                } else if (deadline.getValue() != null) {
-//                    Todo receivedTask = new Todo(task, logic.getCurrentUser()
-//                                                , deadline.getValue());
-//                    logic.addNewTask(receivedTask);
-//                    taskName.clear();      
-//                    deadline.setValue(null);
-//                    
-//                } else {
-//                    Todo receivedTask = new Todo(task, logic.getCurrentUser());
-//                    logic.addNewTask(receivedTask);
-//                    taskName.clear();                    
-//                    
-//                }
-//                getOpenTaskScreen();
-//            } 
-//        });
         
         if (logic.getCurrentUser() != null) {
             table.setTop(addTask);
@@ -363,7 +314,9 @@ public class FamilyToDo extends Application {
     }
             
     
-    
+    /**
+     * Näkymä listaa tekemättömät tehtävät
+     */
     
     private Node getOpenTaskScreen() {
         // get user input for login
@@ -465,7 +418,9 @@ public class FamilyToDo extends Application {
     }
     
 
-    
+    /**
+     * Metodi luo yhden rivin tehtävä näkymiin
+     */
     
     private Node taskRow(Todo task) {
         //HBox box = new HBox(10);
@@ -521,7 +476,10 @@ public class FamilyToDo extends Application {
     }
     
     
-        
+     /**
+      * Metodi aloittaa graafisen käyttöliittymän suorituksen 
+      * ja kutsuu ensimmäisenä sisäänkirjautumissivua
+      */   
     
     
     @Override
@@ -566,7 +524,9 @@ public class FamilyToDo extends Application {
         mainStage.show();        
                  
     }
-    
+    /**
+     * Metodi suorittaa ohjelman lopetustoiminnot sulkeuduttaessa
+     */
     @Override
     public void stop() {      
         System.out.println("sovellus sulkeutuu");

@@ -8,17 +8,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+* Luokka vastaa sovelluksen logiikasta
+*
+*/
 public class TodoService {
     private TodoDao todoDao;
     private UserDao userDao;
     private User currentUser;
 
-    
+    /**
+     * Konstruktori alustaa luokan käyttäen tehtävä- 
+     * ja käyttjärajapintoja
+     * 
+     * @param todoDao rajapinta tehtäville
+     * @param userDao rajapinta käyttäjille
+     */
     public TodoService(TodoDao todoDao, UserDao userDao) {
         this.todoDao = todoDao;
         this.userDao = userDao;
         this.currentUser = null;
     }
+    
+    /**
+     * Metodin avulla kirjaudutaan sisään sovellukseen. 
+     * Metodi tarkistaa löytyykö käyttäjää tiedoista ja täsmääkö 
+     * salasana 
+     * 
+     * @param username käyttäjänimi
+     * @param pass salasana
+     * @return palauttaa true, jos salasana ja käyttäjänimi täsmää, 
+     *          muuten false
+     * @throws Exception
+     */
     
     public boolean login(String username, String pass) throws Exception {
         User attemptingUser = userDao.findByName(username);
@@ -31,6 +53,12 @@ public class TodoService {
         return false;
     }
     
+    
+    /**
+     * Hakee avoimet tehtävät sekä samana päivänä suljetut
+     * @return palauttaa listan Todo-olioita, jotka kuuluvat
+     * kirjautuneelle käyttäjälle
+     */
     public List<Todo> getOpenAndRecentlyDone() {
         if (currentUser == null) {
             return new ArrayList<>();
@@ -53,6 +81,11 @@ public class TodoService {
     }
     
     
+    /**
+     * Hakee tehdyiksi merkityt tehtävät
+     * @return palauttaa listan Todo-olioita, jotka kuuluvat
+     * kirjautuneelle käyttäjälle
+     */
     public List<Todo> getDoneTasks() {
         if (currentUser == null) {
             return new ArrayList<>();
@@ -72,11 +105,19 @@ public class TodoService {
     }
     
     
-    
-    
+    /**
+     * Metodi palauttaa kirjautuneen käyttäjän
+     * @return palauttaa User-olion tai null
+     */
+  
     public User getCurrentUser() {
         return this.currentUser;
     }
+    
+    /**
+     * Lisää uuden tehtävän kirjautuneelle käyttäjälle
+     * @param task lisättävä tehtävä
+     */
     
     public void addNewTask(Todo task) {
         try {
