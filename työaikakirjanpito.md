@@ -14,4 +14,9 @@
 | 20.4. | 2 | Oraclen javan asennusta, java alkoi toimimaan
 | 20.4. | 1 | mavenin pomin korjaus  ja jarrin generointia
 | 21.4. | 2 | yksikkötestausta ja checkstylen korjausta
-|       |37 | Yhteensä
+| 21.4. | 2 | sovelluslogiikan kehitystä
+| 23.4. | 3 | sovelluslogiikan kehitystä, JavaFX opiskelua ja käyttöliittymän parannusta
+| 24.4. | 2 | Käyttöliittymän parannusta (erilliset luokat ei toimineet, kaikki mainiin)
+| 25.4. | 4 | Käyttöliittymän hienosäätöä, JavaDocumentointia ja koodin siistimistä
+| 26.4. | 2 | JavaDocumentointia
+|       | 50| Yhteensä

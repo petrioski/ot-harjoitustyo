@@ -13,3 +13,4 @@ Sovelluksen avulla on tarkoitus pitää kirjaa kotitöistä. Sovelluksen avulla 
 ### Releaset
 
 [Viikko 5](https://github.com/petrioski/ot-harjoitustyo/releases/tag/viikko5)
+[Viikko 6](https://github.com/petrioski/ot-harjoitustyo/releases/tag/viikko6)
