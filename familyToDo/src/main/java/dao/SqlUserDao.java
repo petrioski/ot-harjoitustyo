@@ -55,7 +55,7 @@ public class SqlUserDao implements UserDao {
     }
 
     @Override
-    public List<User> findAll() throws Exception {
+    public List<User> findAll()  {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

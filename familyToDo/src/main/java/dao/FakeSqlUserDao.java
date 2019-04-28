@@ -22,7 +22,8 @@ public class FakeSqlUserDao implements UserDao {
         
         this.users.add(new User("pete", "petri-man", "pass10"));
         this.users.add(new User("etep", "petri-man99", "pass99"));
-        this.users.add(new User("peteInit", "petri-man2", "pass111"));
+        this.users.add(new User("test2", "testUser2", "passTest"));
+        this.users.add(new User("test", "testUser", "passTest"));
     }
     
     @Override
@@ -56,7 +57,7 @@ public class FakeSqlUserDao implements UserDao {
     }
 
     @Override
-    public List<User> findAll() throws Exception {
+    public List<User> findAll()  {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

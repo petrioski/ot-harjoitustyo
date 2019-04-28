@@ -61,7 +61,7 @@
                 <version>0.8.3</version>
                 <configuration>
                     <excludes>
-                        <exclude>familytodo/familytodo/*</exclude>
+                        <exclude>ui/*</exclude>
                     </excludes>
                 </configuration>  
                 <executions>

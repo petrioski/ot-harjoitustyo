@@ -5,14 +5,12 @@
  */
 package dao;
 
-import domain.RecurringTodo;
+
 import domain.Todo;
-import domain.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import javafx.scene.layout.VBox;
+
 
 /**
  *
@@ -23,21 +21,7 @@ public class SqlTodoDao implements TodoDao {
     
                 
     public SqlTodoDao() {
-        this.tasks = new ArrayList<>();
-        User loggedIn;
-        loggedIn = new User("peteInit", "petri-man2", "pass111");
-        Todo pyykit = new Todo("pese pyykit", loggedIn);
-        pyykit.changeDueDate(LocalDate.of(2019, 04, 16));
-        Todo laksyt = new Todo("tee läksyt", loggedIn);
-        laksyt.changeDueDate(LocalDate.parse("2019-04-17"));
-        laksyt.setCompleted();
-        RecurringTodo petaus = new RecurringTodo("petaa sänky", loggedIn, 1);
-        this.tasks.add(new Todo("imuroi", loggedIn));
-        this.tasks.add(new Todo("tee tiskit", loggedIn));
-        this.tasks.add(new Todo("pyyhi pölyt", loggedIn));
-        this.tasks.add(laksyt);
-        this.tasks.add(pyykit); 
-        this.tasks.add(petaus);
+        this.tasks = new ArrayList<>();        
     }
     
     
@@ -63,7 +47,7 @@ public class SqlTodoDao implements TodoDao {
     }
 
     @Override
-    public List<Todo> findAll() throws Exception {
+    public List<Todo> findAll()  {
         return this.tasks;
     }
     

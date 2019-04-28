@@ -25,19 +25,30 @@ public class FakeSqlTodoDao implements TodoDao {
     public FakeSqlTodoDao() {
         this.tasks = new ArrayList<>();
         User loggedIn;
-        loggedIn = new User("peteInit", "petri-man2", "pass111");
+        loggedIn = new User("pete", "petri-man", "pass10");
         Todo pyykit = new Todo("pese pyykit", loggedIn);
         pyykit.changeDueDate(LocalDate.of(2019, 04, 16));
-        Todo laksyt = new Todo("tee läksyt", loggedIn);
-        laksyt.changeDueDate(LocalDate.parse("2019-04-17"));
-        laksyt.setCompleted();
+        Todo homework = new Todo("tee läksyt", loggedIn);
+        homework.changeDueDate(LocalDate.parse("2019-04-17"));
+        homework.toggleCompleted();
         RecurringTodo petaus = new RecurringTodo("petaa sänky", loggedIn, 1);
         this.tasks.add(new Todo("imuroi", loggedIn));
         this.tasks.add(new Todo("tee tiskit", loggedIn));
         this.tasks.add(new Todo("pyyhi pölyt", loggedIn));
-        this.tasks.add(laksyt);
+        this.tasks.add(homework);
         this.tasks.add(pyykit); 
         this.tasks.add(petaus);
+        
+        Todo oldTask = new Todo("makaronilaatikko", new User("test", "testUser", "passTest"));
+        oldTask.toggleCompleted();
+        oldTask.setDoneDate(LocalDate.now().minusDays(2));
+        this.tasks.add(oldTask);
+        
+        Todo oldTask2 = new Todo("makaronilaatikko2", new User("test2", "testUser2", "passTest"));
+        oldTask2.toggleCompleted();
+        this.tasks.add(oldTask2);
+        
+        
     }
     
     
@@ -63,7 +74,7 @@ public class FakeSqlTodoDao implements TodoDao {
     }
 
     @Override
-    public List<Todo> findAll() throws Exception {
+    public List<Todo> findAll() {
         return this.tasks;
     }
     

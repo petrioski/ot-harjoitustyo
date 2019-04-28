@@ -65,17 +65,14 @@ public class TodoService {
         }
         List<Todo> current = new ArrayList<>();
         
-        try {
-            current = todoDao.findAll().stream()
-                    .filter(t -> t.getUser().equals(this.currentUser))
-                    .filter(t -> (!t.isCompleted() 
-                                  || t.getDoneDate().equals(LocalDate.now()))
-                                  )
-                    .collect(Collectors.toList());
+        
+        current = todoDao.findAll().stream()
+                .filter(t -> t.getUser().equals(this.currentUser))
+                .filter(t -> (!t.isCompleted() 
+                              || t.getDoneDate().equals(LocalDate.now()))
+                              )
+                .collect(Collectors.toList());
             
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
         
         return current;
     }
@@ -98,7 +95,7 @@ public class TodoService {
                     .filter(t -> t.isCompleted())
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            System.out.println(e.toString());
+            
         }
         
         return current;
@@ -123,7 +120,7 @@ public class TodoService {
         try {
             todoDao.addOne(task);
         } catch (Exception e) {
-            System.out.println("error");
+            
         }
     }
     

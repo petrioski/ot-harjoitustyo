@@ -70,9 +70,6 @@ public class TodoTest {
     
     @Test
     public void sortingUndoneTasksDifferentDue() {
-        LocalDate today = LocalDate.now();
-        
-        
         Todo newTodo = new Todo("Do the dihes", testCase);
         
         LocalDate nextDay = newTodo.getEndDate().plusDays(1);
@@ -142,6 +139,20 @@ public class TodoTest {
         assertThat(anotherTask.isCompleted(), is(true));        
         
     }
+    
+    @Test
+    public void testSortingBothAreTheSame() {
+        
+        Todo newTodo = new Todo("Do the dihes", testCase);        
+        Todo anotherTask = new Todo("Do the dihes", testCase);
+        
+//        newTodo.toggleCompleted();
+//        anotherTask.toggleCompleted();
+        
+        assertThat(newTodo.compareTo(anotherTask), is(0));  
+        
+    }
+    
     
     @Test
     public void sortingDoneWithUndone() {
