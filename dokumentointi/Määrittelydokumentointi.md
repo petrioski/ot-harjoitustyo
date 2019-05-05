@@ -9,7 +9,7 @@ Sovelluksen avulla on tarkoitus pitää kirjaa tehtävistä ja erityisesti usein
 Sovelluksella on vain yhdenlaisia käyttäjiä, normaalikäyttäjiä, jotka voivat pitää kirjaa omista tehtävistään käyttäjätunnuksen luonnin jälkeen. Sovellusta voi käyttää useampi rekisteröinyt käyttäjä, joilla on omat tehtävälistansa sekä yksilöllisesti säädettävät oletusasetukset.
 
 
-## Suunnitellut toiminnallisuudet
+## Perusversion toiminnallisuudet
 
 ### Ennen kirjautumista
 
