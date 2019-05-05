@@ -455,7 +455,9 @@ public class FamilyToDo extends Application {
                     Todo receivedTask = new Todo(task, logic.getCurrentId()
                                                  , logic.getCurrentSettings());
                     logic.addNewTask(receivedTask);
-                    taskName.clear();                    
+                    taskName.clear();   
+                    deadline.setValue(null);
+                    nextOccurence.setValue(null);
                     
                 }
                 getOpenTaskScreen();
