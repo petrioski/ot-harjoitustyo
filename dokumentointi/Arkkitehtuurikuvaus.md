@@ -43,7 +43,7 @@ Nappia painamalla etusivun käyttöliittymä ottaa vastaan käyttäjänimen ja s
 Käyttäjä täyttää tiedot uuden käyttäjän lomakkeella, jossa nappia painaessaan käyttöliittymä kutsuu sovelluslogiikkaan validUserCreation-metodilla. Logiikka kutsuu sisäistä metodiaan tarkistamaan onko käyttäjänimi jo olemassa ja kutsuu seuraavaksi userDaota. Kun kaikki menee hyvin dao palauttaa falsen logiikalle, minkä jälkeen uusi User-olio luodaan ja lisätään tietokantaa. Lopuksi sovelluslogiikka palauttaa true-totuusarvon käyttöliittymälle, joka päivittää lomakkeen alle tiedon onnistuneesta käyttäjätunnuksen luomisesta. Kontrolli palautuu käyttäjälle. 
 
 ### uuden tehtävän luominen 
-![newTask](media/createNewTodo.png)
+![newTask](media/addNewTodo.png)
 
 Uusi tehtävä luodaan täyttämällä vähimmäistiedot tehtävästä (kuten nimi ja onko toistuva vai ei). Käyttöliittymä tarkistaa syötteet ja luo uuden tehtävä-olion tietojen perusteella, minkä jälkeen kutsuu logiikan addNewTask-metodia uudella tehtävällä. Sovelluslogiikka kutsuu todoDaon addOne-metodia, joka tallentaa tehtävän tietokantaan. Tämän jälkeen käyttöliittymä päivittää tehtävänäkymänsä, tyhjentää tehtävän lisäys-lomakkeen ja palauttaa kontrollin käyttäjälle.
 
