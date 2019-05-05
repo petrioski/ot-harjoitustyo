@@ -29,6 +29,7 @@ public class TodoService {
      * 
      * @param todoDao rajapinta tehtäville
      * @param userDao rajapinta käyttäjille
+     * @param settingsDao rajapinta oletusasetuksille
      */
     public TodoService(TodoDao todoDao
                        , UserDao userDao
@@ -48,7 +49,7 @@ public class TodoService {
      * @param pass salasana
      * @return palauttaa true, jos salasana ja käyttäjänimi täsmää, 
      *          muuten false
-     * @throws Exception
+     * @throws Exception heittää poikkeuksen
      */
     
     public boolean login(String username, String pass) throws Exception {
@@ -64,7 +65,9 @@ public class TodoService {
         
         return false;
     }
-    
+    /**
+     * Metodi kirjaa käyttäjän ulos ja tyhjentää oletusasetukset
+     */
     public void logOut() {
         this.currentUser = null;
         this.settings = null;
@@ -143,19 +146,36 @@ public class TodoService {
     public User getCurrentUser() {
         return this.currentUser;
     }
-    
+    /**
+     * Palauttaa kirjautuneen käyttäjän id:n
+     * @return käyttäjän id
+     */
     public Integer getCurrentId() {
         return this.currentUser.getId();
     }
-    
+    /**
+     * Palauttaa sisäänkirjautuneen käyttäjän oletusasetukset
+     * @return UserPreferences
+     */
     public UserPreferences getCurrentSettings() {
         return this.settings;
     }
     
+    /**
+     * Palauttaa sisäänkirjautuneen käyttäjän tehtävien oletus määräajan.
+     * Kertoo kuinka monen päivän päähän deadline asetetaan oletuksena.
+     * @return int oletusmääräaika
+     */
     public Integer getDefaultDuration() {
         return this.settings.getDefaultDuration();
     }
     
+    /**
+     * Palauttaa sisäänkirjautuneen käyttäjän toistuvien tehtävien 
+     * oletus uusiutumisfrekvenssin.
+     * Kertoo kuinka monen päivän päähän uusi deadline asetetaan oletuksena.
+     * @return int oletusuusiutumisfrekvenssi
+     */
     public Integer getRepeatInterval() {
         return this.settings.getRecurringInterval();
     }
@@ -172,7 +192,11 @@ public class TodoService {
             
         }
     }
-    
+    /**
+     * Lisää uuden käyttäjän tietokantaan
+     * @param user käyttäjä-olio
+     * @return true, jos lisäys onnistui
+     */
     public boolean addNewUser(User user) {
         try {
             userDao.addOne(user);
@@ -182,7 +206,10 @@ public class TodoService {
         return true;
     }
     
-    
+    /**
+     * lisää uuden tai päivittää vanhan tehtävän tietokantaan
+     * @param task päivitettävä tehtävä
+     */
         
     public void saveOrUpdateTask(Todo task) {
         try {
@@ -192,6 +219,10 @@ public class TodoService {
         }
     }
     
+    /**
+     * Lisää uudet oletusasetukset tai päivittää vanhat tietokantaan
+     * @param pref päivitettävä oletusasetukset
+     */
     public void saveOrUpdatePrefences(UserPreferences pref) {
         try {
             settingsDao.saveOrUpdate(pref);            
@@ -201,7 +232,10 @@ public class TodoService {
         this.refreshSettings();
     }
     
-    
+    /**
+     * Poistaa tehtävän tietokannasta
+     * @param task päivitettävä tehtävä
+     */
     public void deleteTask(Todo task) {
         try {
             todoDao.delete(task.getTaskId());
@@ -210,6 +244,11 @@ public class TodoService {
         }
     }
     
+    /**
+     * Kertoo löytyykö käyttäjänimi jo tietokannasta
+     * @param username käyttäjänimi
+     * @return Boolean true, jos käyttäjänimi on jo olemassa
+     */
     public Boolean userExists(String username) {
         User found = null;
         try {
@@ -225,6 +264,14 @@ public class TodoService {
         return false;
     }
     
+    /**
+     * Testaa täyttääkö uuden käyttäjän syöttämät tiedot asetetut vaatimukset 
+     * @param realName käyttjän kutsumanimi
+     * @param username käyttäjänimi sisäänkirjautumiseen
+     * @param pass1 salasana
+     * @param pass2 salasana toiseenkertaan
+     * @return palauttaa true, jos onnistui, muuten false
+     */
     public Boolean validUserCreation(String realName, String username,
                                     String pass1, String pass2) {
         

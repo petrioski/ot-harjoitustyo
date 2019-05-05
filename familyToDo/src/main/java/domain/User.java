@@ -4,7 +4,7 @@ package domain;
 import java.util.Objects;
 
 /**
- * Ohjelman käyttäjäoliosta vastaava luokka
+ * Ohjelman käyttäjää kuvaava luokka
  * 
  */
 public class User {
@@ -13,20 +13,12 @@ public class User {
     private String password;
     private Integer id;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     
     /**
      * Metodi alustaa käyttäjä-olion uuden luonnin yhteydessä
-     * @param name nimi
+     * @param name käyttäjän kutsumanimi
      * @param username käyttäjänimi
-     * @param password salasana
+     * @param password käyttäjän salasana
      */
     public User(String name, String username, String password) {
         this.name = name;
@@ -34,6 +26,14 @@ public class User {
         this.password = password;
     }
     
+    /**
+     * Luo uuden käyttäjän, kun id on jo tiedossa.
+     * Tyypillisesti käytetään kun haetaan tietokannasta aiempia käyttäjiä.
+     * @param id käyttäjän yksilöivä id
+     * @param name käyttäjän kutsumanimi
+     * @param username käyttäjänimi
+     * @param password käyttäjän salasana
+     */
     public User(int id, String name, String username, String password) {
         this.id = id;
         this.name = name;
@@ -41,35 +41,6 @@ public class User {
         this.password = password;
     }
     
-    
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    @Override
-    public String toString() {
-        return this.username;
-    }
     
     /**
      * Metodi vastaa User-olion vertailusta
@@ -102,6 +73,30 @@ public class User {
         hash = 29 * hash + Objects.hashCode(this.name);
         hash = 29 * hash + Objects.hashCode(this.username);
         return hash;
+    }
+    
+    
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    
+    @Override
+    public String toString() {
+        return this.username;
+    }
+    
+    public Integer getId() {
+        return id;
     }
     
 }

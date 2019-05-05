@@ -4,10 +4,21 @@ package domain;
 import java.sql.*;
 import org.sqlite.SQLiteConfig;
 
-
+/**
+ * Luokka vastaa tietokannan luonnista sekä yhteyden luomisesta tietokantaan
+ * 
+ */
 public class Database {
     private String databaseAddress;
     
+    /**
+     * Luo Database-olion annetulla osoitteella.
+     * Luonnin yhteydessä konstruktori varmistaa, että ohjelman käyttämä 
+     * tietokanta on olemassa tauluineen ja tarpeen vaatiessa luo ne itse.
+     * 
+     * @param databaseAddress tietokannan osoite
+     * @throws ClassNotFoundException heittää luokka ei löydy poikkeuksen
+     */
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
         
@@ -17,7 +28,11 @@ public class Database {
             
         }
     }
-
+    /**
+     * Metodi huolehtii yhteydestä tietokantaan
+     * @return yhteys tietokantaan
+     * @throws SQLException heittää sql-poikkeuksen
+     */
     public Connection getConnection() throws SQLException {
         SQLiteConfig config = new SQLiteConfig();  
         config.enforceForeignKeys(true);

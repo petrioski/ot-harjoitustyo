@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 
-
+/**
+ * Luokka kuvaa normaalia tehtävää, joka ei toistu automaattisesti
+ * 
+ */
 
 public class Todo implements Comparable<Todo> {    
     private Integer taskId;
@@ -69,28 +72,6 @@ public class Todo implements Comparable<Todo> {
         this.defaultDuration = duration;
     }
     
-    /**
-     * Luo uuden tehtävän nimen ja käyttäjän perusteella. 
-     * Tehtävän määräpäivä tulee kirjautuneen käyttäjän oletusasetuksista.
-     * Uusi tehtävä on oletusarvoisesti tekemätön
-     * @param task tehtävän nimi
-     * @param user käyttäjän id
-     * @param dueDate tehtävän määräpäivä
-     */   
-//    public Todo(String task, int user, LocalDate dueDate) {
-//        this.task = task;        
-//        this.userId = user;
-//        this.completed = false;
-//        this.dueDate = dueDate;
-//        
-//        LocalDate createdDate = LocalDate.now();
-//        
-//        int duration = (int) DAYS.between(createdDate, dueDate);
-//        if (duration < 0) {
-//            duration = 0;
-//        }
-//        this.defaultDuration = duration;
-//    }
     
     
     public Integer getDefaultDuration() {
@@ -144,7 +125,15 @@ public class Todo implements Comparable<Todo> {
         this.userId = user;
     }
     
-    
+    /**
+     * Vertailee kahta eri tehtävää.
+     * Ensimmäiseksi vertailussa tulevat tekemättömät tehtävät. Jos tehtävillä
+     * sama tilan totuusarvo, completed, niin tehtävät järjestyvät 
+     * päivämäärän mukaan ja lopuksi nimen mukaan aakkosjärjestyksessä.
+     * 
+     * @param next vertailtava tehtävä
+     * @return -1 jos tulee ennen vertailtavaa taskia, 1 jos jälkeen, muuten 0
+     */
     @Override
     public int compareTo(Todo next) {
         if (this.isCompleted() && !next.isCompleted()) {
@@ -203,7 +192,13 @@ public class Todo implements Comparable<Todo> {
     public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
-
+    /**
+     * Metodi kääntää totuusarvon tehtävälle.
+     * Tehdystä tulee tekemätön ja tekemättömästä tehty. 
+     * Samalla päivitetään eräpäivät tehtävän luonnin yhteydessä valittuun 
+     * määräpäiviin.
+     * 
+     */
     public void toggleCompleted() {
         if (!isCompleted()) {
             setCompleted();

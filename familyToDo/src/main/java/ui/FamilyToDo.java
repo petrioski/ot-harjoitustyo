@@ -71,6 +71,12 @@ public class FamilyToDo extends Application {
         this.logic = new TodoService(todoDao, userDao, settingsDao);        
     }
     
+    /**
+     * Metodi luo uloskirjautumisnäkymän, kun käyttäjä on kirjautunut 
+     * onnistuneesti sisään
+     * 
+     */
+    
     private Node getLoggedInScreen() {
         // create places for login elements
         GridPane logOutForm = new GridPane();
@@ -214,7 +220,7 @@ public class FamilyToDo extends Application {
      */
     
     
-    public Node getCreateUserScreen() {
+    private Node getCreateUserScreen() {
         
         // get user input for login
         Label useruidance = new Label("Ole hyvä ja valitse itsellesi: ");
@@ -496,7 +502,10 @@ public class FamilyToDo extends Application {
         return table;
     }
     
-    
+    /**
+     * Näkymä vastaa oletusasetusten näyttämisestä käyttäjälle
+     *      
+     */
     private Node getSettingsScreen() {
         BorderPane settingsPane = new BorderPane();
         ScrollPane settingsElementsBox = new ScrollPane();        
@@ -592,7 +601,8 @@ public class FamilyToDo extends Application {
     
 
     /**
-     * Metodi luo yhden rivin tehtävä näkymiin
+     * Metodi luo yhden rivin tehtävälistaus -näkymiin, kuten avoimet 
+     * tehtävät ja tehdyt tehtävät
      */
     
     private Node taskRow(Todo task) {
