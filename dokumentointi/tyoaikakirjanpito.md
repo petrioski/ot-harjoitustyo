@@ -20,4 +20,8 @@
 | 25.4. | 4 | Käyttöliittymän hienosäätöä, JavaDocumentointia ja koodin siistimistä
 | 26.4. | 2 | JavaDocumentointia
 | 26.4. | 2 | Uusia testejä 
-|       | 52| Yhteensä
+| 27.4. | 4 | sqliten opiskelua ja tietokanta-daon kertausta
+| 1.5.  | 4 | tietokantatoiminnallisuuden lisäys
+| 4.5.  | 6 | testausta ja käyttöliittymän parantelua, asetustoiminnallisuuden lisäys
+| 5.5.  | 6 | dokumentointi, javadoc, käyttöohjeet, loppupalautus
+|       | 72| Yhteensä
