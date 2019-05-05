@@ -8,10 +8,10 @@ Sovellus käynnistyy aloitusnäkymällä, josta pääsee kirjautumaan sisään k
 ![aloitusnakyma](media/aloitus.png)
 
 Kun käyttäjä kirjatuuu onnistuneesti sisään, ohjelma siirtyy avoimien tehtävien näkymään. 
-![sisäänkirjautuminen](media/sisaan_kirjautuminen.png)
+![sisäänkirjautuminen](media/sisaankirjautuminen.png)
 
 Jos käyttäjä ei kirjaudu sisään sovellukseen, niin sen toiminnot eivät ole käytettävissä vaan ohjelma näyttää pyynnön sisäänkirjautumisesta.
-![ei_paasya](media/ei_kirjautuneen_nakyma.png)
+![ei_paasya](media/ei_kirjautuneen_näkymä.png)
 
 
 ## Uuden käyttäjän luominen
@@ -21,21 +21,23 @@ Uusi käyttäjä luodaan oheisella näkymällä. Sovellus pyytää täyttämää
 
 Kun käyttäjätunnus on luotu onnistuneesti, ohjelma ilmoittaa uuden luonnin onnistuneen ja pyytää siirtymään sisäänkirjautumissivulle painamalla painiketta.
 
-## Tehtävien luominen, päivittäminen
+## Tehtävien luominen ja päivittäminen
 
 Jos aiempia avoimia tehtäviä ei ole niin näkymä on tyhjä. Uusia tehtäviä voi lisätä ylärivin lomakkeella. Uuden tehtävän minimivaatimus on tehtävän nimi, muut tiedot tulevat oletusasetuksista, jos jäävät tyhjäksi.
 
 ![avoimet](media/avoimet_tyhja.png)
 
+Jos käyttäjällä on aiempia tehtäviä edelliskerralta, niin ne näkyvät eräpäivien mukaan päivämäärä-järjestyksessä, lähimmät eräpäivät ylimpänä sekä tekemättömät ennen tehtyjä. Avoimien listalla näkyy tehdyistä vain samana päivänä suljetut tehtävät.
+
 ![lista](media/avoimet_lista.png)
 
-Toistuvia tehtäviä voi lisätä, joko ruksimalla 'Toistuva ?' -valinnan tai täyttämällä toistumispäivämäärän kalenterivalikosta.
+Toistuvia tehtäviä voi lisätä, joko ruksimalla 'Toistuva ?' -valinnan tai täyttämällä toistumispäivämäärän kalenterivalikosta. Toistuvan tehtävän nimen perässä lukee suluissa monenko päivän välein tehtävä uusiutuu sekä päivämäärä milloin tehtävä on viimeksi tehty. 
 
 ![lisaa](media/toistuvan_lisaaminen.png)
 
 ![kalenteri](media/kalenterivalinta.png)
 
-Tehtävät merkitään tehdyiksi ruksimalla rasti vasemman reunan radio-painikkiiseen. 
+Tehtävät merkitään tehdyiksi ruksimalla rasti vasemman reunan radio-painikkeeseen. 
 
 Tehdyt tehtävät näkyvät vielä samana päivänä myös avoimien tehtävien -listalla sekä tehtyjen tehtävien -listalla, mutta siirtyvät seuraavana päivänä kokonaan arkistoon.
 
@@ -45,7 +47,7 @@ Tehtävissä voi muokata päivämääriä kalenterien avulla. Jo tehtyjä tehtä
 ## Tehtävien arkisto
 Kaikki tehdyt tehtävät näkyvät tehtyjen -listalla
 
-![tehdyt](media/tehdyt_tehtavat.png)
+![tehdyt](media/tehdyt_tehtävät.png)
 
 ## Tehtävien poistaminen 
 Tarpeettomat tehtävät voi poistaa poista-painikkeella kaikilla näkymillä. Tehtävä poistuu pysyvästi.
