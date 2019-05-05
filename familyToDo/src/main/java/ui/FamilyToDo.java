@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ui;
 
-import dao.SqlTodoDao;
-import dao.SqlUserDao;
-import domain.RecurringTodo;
-import domain.Todo;
-import domain.TodoService;
+import dao.*;
+import domain.*;
 import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 import java.util.Collections;
@@ -54,11 +47,13 @@ public class FamilyToDo extends Application {
     private BorderPane choresLayout = new BorderPane();
     private BorderPane archiveLayout = new BorderPane();
     private BorderPane loginPageLayout = new BorderPane();
+    private BorderPane settingsPageLayout = new BorderPane();
     
     private TabPane tabs = new TabPane();
     private Tab loginTab = new Tab();        
     private Tab taskListTab = new Tab();        
     private Tab doneTasksTab = new Tab();
+    private Tab settingsTab = new Tab();
                 
     private SingleSelectionModel<Tab> selectionModel = tabs.getSelectionModel();
     
@@ -69,10 +64,52 @@ public class FamilyToDo extends Application {
     
     @Override
     public void init() throws Exception {
-        SqlTodoDao todoDao = new SqlTodoDao();
-        SqlUserDao userDao = new SqlUserDao();
-        this.logic = new TodoService(todoDao, userDao);        
+        Database database = new Database("jdbc:sqlite:tasks.db");
+        SqlTodoDao todoDao = new SqlTodoDao(database);
+        SqlUserDao userDao = new SqlUserDao(database);
+        SqlUserPreferencesDao settingsDao = new SqlUserPreferencesDao(database);
+        this.logic = new TodoService(todoDao, userDao, settingsDao);        
     }
+    
+    private Node getLoggedInScreen() {
+        // create places for login elements
+        GridPane logOutForm = new GridPane();
+                   
+        logOutForm.setAlignment(Pos.CENTER);
+        logOutForm.setVgap(10);
+        logOutForm.setHgap(10);
+        logOutForm.setPadding(new Insets(10, 10, 10, 10));
+        
+        Button logOutButton = new Button("Kirjaudu ulos");
+        
+        String loggedInUser = "";
+        
+        loggedInUser = "Olet kirjautunut käyttäjänimellä: "  
+                        + logic.getCurrentUser();
+        
+        
+        Label loggedInText = new Label(loggedInUser);
+        loggedInText.setTextFill(Color.BLACK);
+        loggedInText.setWrapText(true);
+        loggedInText.setMaxWidth(170);
+        
+        logOutForm.add(loggedInText, 0, 1);
+        logOutForm.add(logOutButton, 0, 2);
+        
+            
+        logOutButton.setOnAction((event) -> {
+            this.logic.logOut();
+            mainStage.setTitle("FamilyToDo: " + "Kirjaudu sisään");
+            
+            this.updateAllUserTabs();
+            
+            loginTab.setContent(loginPageLayout);
+        });
+        
+        return logOutForm;
+    }
+    
+    
     
     /**
      * Sovelluksen aloitusnäkymä, josta pääsee kirjautumaan sisään tai
@@ -82,7 +119,7 @@ public class FamilyToDo extends Application {
     private Node getLoginScreen() {
                                                        
         Label userGuidance = new Label("Ole hyvä ja kirjaudu sisään: ");
-        Label instructions = new Label("Käyttäjänimi: ");        
+        Label instructions = new Label("Käyttäjätunnus: ");        
         TextField username = new TextField();
         Label passwordGuide = new Label("Salasana: ");
         PasswordField passInput = new PasswordField();
@@ -100,8 +137,8 @@ public class FamilyToDo extends Application {
         
         // create places for login elements
         GridPane loginForm = new GridPane();
-        
-        
+      
+
         loginForm.setAlignment(Pos.CENTER);
         loginForm.setVgap(10);
         loginForm.setHgap(10);
@@ -114,11 +151,13 @@ public class FamilyToDo extends Application {
         loginForm.add(passwordGuide, 0, 2);
         loginForm.add(passInput, 1, 2);
         
-        //buttons
-        loginForm.add(getLoginInputButton, 1, 3);
-        loginForm.add(createNewUserButton, 1, 4);
+
         
-        //test
+        //add buttons for user interaction
+        loginForm.add(createNewUserButton, 1, 4);        
+        loginForm.add(getLoginInputButton, 1, 3);
+        
+        // give user feedback
         loginForm.add(responseText, 1, 5);
         
         
@@ -132,14 +171,14 @@ public class FamilyToDo extends Application {
             try {
                 successLogin = logic.login(user, pass);
             } catch (Exception ex) {
-                System.out.println("Exepction tapahtui");                
+                             
             }
             
             if (!successLogin) {
                 username.clear();
                 passInput.clear();
 
-                String sana = "Väärä salasana";
+                String sana = "Väärä käyttäjätunnus tai salasana";
 
                 responseText.setText(sana);
                 return;
@@ -148,13 +187,12 @@ public class FamilyToDo extends Application {
             username.clear();
             passInput.clear();
             
-            responseText.setText("Olet kirjautunut käyttäjänimellä: "  + logic.getCurrentUser());
-            mainStage.setTitle("FamilyToDo: " + logic.getCurrentUser() + " kirjautunut sisään");
             
-            choresLayout.setCenter(getOpenTaskScreen());
-            archiveLayout.setCenter(getDoneTaskScreen());
-            taskListTab.setContent(choresLayout);
-            tabs.getTabs().add(taskListTab);
+            mainStage.setTitle("FamilyToDo: " 
+                                + logic.getCurrentUser().getName()
+                                + " kirjautunut sisään");
+            
+            this.updateAllUserTabs();
             
             selectionModel.select(taskListTab);
 
@@ -165,7 +203,7 @@ public class FamilyToDo extends Application {
             loginPageLayout.setCenter(getCreateUserScreen());
             loginTab.setContent(loginPageLayout);
         });
-                        
+        
         
         return loginForm;
     }
@@ -175,11 +213,13 @@ public class FamilyToDo extends Application {
      * Uuden käyttäjän luova näkymä
      */
     
-    // new user file transactions
+    
     public Node getCreateUserScreen() {
         
         // get user input for login
         Label useruidance = new Label("Ole hyvä ja valitse itsellesi: ");
+        Label ownNameGuide = new Label("Oma nimesi: ");        
+        TextField ownName = new TextField();    
         Label instructions = new Label("Käyttäjätunnus: ");        
         TextField username = new TextField();
         Label passwordGuide = new Label("Salasana: ");
@@ -202,49 +242,57 @@ public class FamilyToDo extends Application {
         createUserForm.setHgap(10);
         createUserForm.setPadding(new Insets(10, 10, 10, 10));
         
-        // (x,y)
+        // cordinates are in order (x,y)        
         createUserForm.add(useruidance, 0, 0, 2, 1);
-        createUserForm.add(instructions, 0, 1);
-        createUserForm.add(username, 1, 1, 2, 1);
-        createUserForm.add(passwordGuide, 0, 2);
-        createUserForm.add(passInput, 1, 2, 2, 1);
-        createUserForm.add(passwordGuideCheck, 0, 3);
-        createUserForm.add(passInputCheck, 1, 3, 2, 1);
+        createUserForm.add(ownNameGuide, 0, 1);
+        createUserForm.add(ownName, 1,1, 2,1);
+        createUserForm.add(instructions, 0, 2);
+        createUserForm.add(username, 1, 2, 2, 1);
+        createUserForm.add(passwordGuide, 0, 3);
+        createUserForm.add(passInput, 1, 3, 2, 1);
+        createUserForm.add(passwordGuideCheck, 0, 4);
+        createUserForm.add(passInputCheck, 1, 4, 2, 1);
         
         //buttons
-        createUserForm.add(getInput, 1, 4);
-        createUserForm.add(goToLoginPage, 2, 4);
+        createUserForm.add(getInput, 1, 5);
+        createUserForm.add(goToLoginPage, 2, 5);
         
         //show test result to user
-        createUserForm.add(rec, 1, 5, 4, 4);
+        createUserForm.add(rec, 1, 6, 4, 4);
         
         getInput.setOnAction((event) -> {
+            String name = ownName.getText();
             String user = username.getText();
             String pass = passInput.getText();
             String checkPass = passInputCheck.getText();
             rec.setTextFill(Color.RED);
             
-            if (user.trim().length() <= 2) {
+            if (user.length() <= 2) {
                 rec.setText("Hups..Käyttäjätunnus liian lyhyt");                
                 username.clear();
-                passInput.clear();
-                passInputCheck.clear();    
-                
-            } else if (!pass.equals(checkPass)) {                
-                rec.setText("Hups..Salasanat eivät täsmänneet");                
+
+            } else if (logic.userExists(user)){    
+                rec.setText("Hups..Käyttäjätunnus on varattu");
+                username.clear();
+            } else if (!pass.equals(checkPass)
+                       || pass.length() <= 2) {                
+                rec.setText("Hups..Salasana liian lyhyt \n"
+                        + "tai kentät ei täsmänneet");                
                 passInput.clear();
                 passInputCheck.clear();
             } else {
-                String received = "Uusi tunnus luotu: {" + user + " : " + pass + "}";
+                String received = "Uusi tunnus luotu, "
+                                + "voit kirjautua nyt sisään";
                 
+                logic.validUserCreation(name, user, pass, checkPass);
+                
+                
+                ownName.clear();
                 username.clear();
                 passInput.clear();
                 passInputCheck.clear();
                 
-                String sana = received;
-                // TODO: 
-                // add file save transaction to save new user
-                // *******************************************
+                String sana = received;                
                 
                 rec.setTextFill(Color.BLACK);
                 rec.setText(sana);
@@ -252,13 +300,14 @@ public class FamilyToDo extends Application {
             
         });
         
-        goToLoginPage.setOnAction((event) -> {
-            loginPageLayout.setCenter(getLoginScreen());
-            loginTab.setContent(loginPageLayout);
+        goToLoginPage.setOnAction((event) -> {            
             username.clear();
             passInput.clear();
             passInputCheck.clear();
             rec.setText("");
+            
+            loginPageLayout.setCenter(getLoginScreen());
+            loginTab.setContent(loginPageLayout);
         });
         
         return createUserForm;
@@ -270,7 +319,7 @@ public class FamilyToDo extends Application {
      */
             
     private Node getDoneTaskScreen() {
-        // get user input for login
+        
         
         // add new task
         BorderPane table = new BorderPane();
@@ -291,7 +340,7 @@ public class FamilyToDo extends Application {
             return table;
         }
         
-//        VBox taskQueue = new VBox();
+
         closedTaskQueue.getChildren().clear();
         List<Todo> tasklist = logic.getDoneTasks();
         Collections.sort(tasklist);
@@ -319,9 +368,7 @@ public class FamilyToDo extends Application {
      */
     
     private Node getOpenTaskScreen() {
-        // get user input for login
-        
-        // add new task
+                        
         BorderPane table = new BorderPane();
         ScrollPane plate = new ScrollPane();        
         table.setCenter(plate);
@@ -333,26 +380,28 @@ public class FamilyToDo extends Application {
         DatePicker deadline = new DatePicker();
         deadline.setMaxWidth(125);
         
-        Label repeatText = new Label("Toistoväli: ");
+        Label repeatText = new Label("Toistumispäivä: ");
         DatePicker nextOccurence = new DatePicker();
         nextOccurence.setMaxWidth(125);
         
         Button insertTask = new Button("Lisää!");
-        
+        CheckBox checkRecurring = new CheckBox();
         
         GridPane addTask = new GridPane();
-        addTask.setHgap(5);
-        addTask.setVgap(2);        
-        addTask.setPadding(new Insets(5, 5, 5, 5));
+        addTask.setHgap(15);
+        addTask.setVgap(5);        
+        addTask.setPadding(new Insets(5, 0, 5, 0));
         
         addTask.add(newTaskLabel, 0, 0, 2, 1);
-        addTask.add(taskName, 1, 1, 2, 1);
+        addTask.add(taskName, 0, 1, 2, 1);
         addTask.add(new Label("Määräpäivä:"), 2, 0);
         addTask.add(deadline, 2, 1);
         addTask.add(repeatText, 4, 0);
-        addTask.add(nextOccurence, 4, 1);
-        addTask.add(insertTask, 5, 1);
-
+        addTask.add(nextOccurence, 4, 1);        
+        addTask.add(new Label("Toistuva?"), 5, 0);
+        addTask.add(checkRecurring, 5, 1);
+        addTask.add(insertTask, 6, 1);
+        
         
         insertTask.setOnAction((event) -> {
             String task = taskName.getText().trim();
@@ -362,21 +411,49 @@ public class FamilyToDo extends Application {
                     long interval = DAYS.between(deadline.getValue()
                                             , nextOccurence.getValue());                           
                     RecurringTodo receivedTask = new RecurringTodo(task
-                                            , logic.getCurrentUser(), (int) interval);
+                                            , logic.getCurrentId()
+                                            , logic.getCurrentSettings()
+                                            , (int) interval);
                     deadline.setValue(null);
                     nextOccurence.setValue(null);
-                    taskName.clear();      
+                    taskName.clear();     
+                    checkRecurring.setSelected(false);
                     logic.addNewTask(receivedTask);
-                    
-                } else if (deadline.getValue() != null) {
-                    Todo receivedTask = new Todo(task, logic.getCurrentUser()
-                                                , deadline.getValue());
+                
+                } else if (deadline.getValue() != null 
+                            && !checkRecurring.isSelected()) {
+                    Todo receivedTask = new Todo(task, logic.getCurrentId()                                                
+                                                ,logic.getCurrentSettings());
+                    receivedTask.changeDueDate(deadline.getValue());
                     logic.addNewTask(receivedTask);
-                    taskName.clear();      
+                    taskName.clear();                          
                     deadline.setValue(null);
                     
+                } else if (deadline.getValue() != null 
+                            && checkRecurring.isSelected()) {
+                    RecurringTodo receivedTask = new RecurringTodo(task
+                                            , logic.getCurrentId()
+                                            , logic.getCurrentSettings());
+                    
+                    receivedTask.changeDueDate(deadline.getValue());
+                    
+                    logic.addNewTask(receivedTask);
+                    
+                    checkRecurring.setSelected(false);
+                    taskName.clear();                          
+                    deadline.setValue(null);
+                } else if (checkRecurring.isSelected()) {
+                    RecurringTodo receivedTask = new RecurringTodo(task
+                                            , logic.getCurrentId()
+                                            , logic.getCurrentSettings());
+                                                            
+                    logic.addNewTask(receivedTask);
+                    checkRecurring.setSelected(false);
+                    taskName.clear();                          
+                    
                 } else {
-                    Todo receivedTask = new Todo(task, logic.getCurrentUser());
+                    Todo receivedTask = new Todo(task, logic.getCurrentId()
+                                                 , logic.getCurrentSettings());
                     logic.addNewTask(receivedTask);
                     taskName.clear();                    
                     
@@ -417,6 +494,100 @@ public class FamilyToDo extends Application {
         return table;
     }
     
+    
+    private Node getSettingsScreen() {
+        BorderPane settingsPane = new BorderPane();
+        ScrollPane settingsElementsBox = new ScrollPane();        
+        
+        settingsPane.setTop(new Label(""));
+        settingsPane.setCenter(settingsElementsBox);
+        
+        
+        // stop here if user not logged in
+        if (logic.getCurrentUser() == null) {
+            settingsElementsBox.setContent(new Label("Kirjaudu sisään nähdäksesi "
+                    + "asetukset"));
+            return settingsPane;
+        }
+        
+        // continue with current user's settings
+        GridPane userSettings = new GridPane();
+        
+        // heading row
+        BorderPane guidanceBar = new BorderPane();
+        guidanceBar.setPadding(new Insets(10, 0, 10, 0));
+        
+        Label prefGuide = new Label("Vaihda uusien tehtävien oletusasetukset:");
+        guidanceBar.setLeft(prefGuide);
+        
+        Button saveSettingsBtn = new Button("Tallenna");
+        guidanceBar.setRight(saveSettingsBtn);
+        
+        settingsPane.setTop(guidanceBar);
+        
+        
+        
+        int minHeight = 30;
+        Label deadline = new Label("Tehtävien oletuskesto (pv)");
+        deadline.setMinHeight(minHeight);
+        Label repeatFreq = new Label("Toistuvien tehtävien uusimisväli (pv)");
+        repeatFreq.setMinHeight(minHeight);
+
+        
+        TextField defaultDeadline = new TextField("");                        
+        defaultDeadline.setText(""+this.logic.getDefaultDuration());
+        
+        TextField defaultFreq = new TextField("");
+        defaultFreq.setText(""+logic.getRepeatInterval());
+        userSettings.setVgap(10);
+        userSettings.setHgap(30);
+        userSettings.setPadding(new Insets(10, 5, 10, 5));
+        userSettings.add(deadline, 0,0);
+        userSettings.add(defaultDeadline, 1,0);
+        userSettings.add(repeatFreq, 0,1);
+        userSettings.add(defaultFreq, 1,1);
+
+        
+        settingsElementsBox.setContent(userSettings);
+        
+        
+        saveSettingsBtn.setOnAction((event) -> {
+            Integer newDeadline = logic.getDefaultDuration();
+            Integer newFreq = logic.getRepeatInterval();
+            
+            try {
+                int received = Integer.parseInt(defaultDeadline.getText());
+                
+                if (received >= 0) {
+                    newDeadline = received;
+                }
+                
+            } catch (Exception e) {
+                
+            }
+            
+            try {
+                int received = Integer.parseInt(defaultFreq.getText());
+                
+                if (received >= 0) {
+                    newFreq = received;
+                }
+                
+            } catch (Exception e) {
+                
+            }
+            
+            UserPreferences newPref = new UserPreferences(logic.getCurrentId()
+                                                , newDeadline, newFreq);
+            
+            logic.saveOrUpdatePrefences(newPref);
+            this.updateAllUserTabs();
+        });
+        
+        
+        return settingsPane;
+    }
+    
 
     /**
      * Metodi luo yhden rivin tehtävä näkymiin
@@ -428,10 +599,15 @@ public class FamilyToDo extends Application {
         
         box.setMaxWidth(Region.USE_COMPUTED_SIZE);
         box.setVgap(10);
-        box.setHgap(10);
+        box.setHgap(20);
         box.setPadding(new Insets(1, 0, 10, 10));
         
-        Label taskName = new Label(task.getTask());
+        String taskTitle = task.getTask();
+        if (task instanceof RecurringTodo) {
+            taskTitle = ((RecurringTodo) task).getTaskTitle();
+        }
+        
+        Label taskName = new Label(taskTitle);
         taskName.prefHeight(28);     
         taskName.setFont(Font.font(16.0));
         taskName.setMinWidth(300);
@@ -442,18 +618,17 @@ public class FamilyToDo extends Application {
         CheckBox btnDone = new CheckBox();
         Label dueDate = new Label(task.getEndDate().toString());
         Label doneDate = new Label(""); 
+        Button deleteTask = new Button("Poista");
         
         
-        if (task instanceof RecurringTodo && task.getDoneDate() != null) {            
-            doneDate = new Label(task.getDoneDate().toString());
-        } 
         
         if (task.isCompleted() && task instanceof Todo) {
             btnDone.fire();
         }
         
-        btnDone.setOnAction((ActionEvent event) -> {
-            task.toggleCompleted();
+        btnDone.setOnAction((ActionEvent event) -> {            
+            task.toggleCompleted();            
+            this.logic.saveOrUpdateTask(task);
             getOpenTaskScreen();
             getDoneTaskScreen();
         });
@@ -462,21 +637,43 @@ public class FamilyToDo extends Application {
             LocalDate newDate = chgDueDate.getValue();
             dueDate.setText(newDate.toString());
             task.changeDueDate(newDate);
+            this.logic.saveOrUpdateTask(task);
             getOpenTaskScreen();
             getDoneTaskScreen();
             
         });
         
+        deleteTask.setOnAction((event) -> {
+            this.logic.deleteTask(task);
+            getOpenTaskScreen();
+            getDoneTaskScreen();
+        });
                
         box.add(btnDone, 0, 0);
         box.add(taskName, 1, 0);
         box.add(doneDate, 3, 0);
         box.add(chgDueDate, 2, 0);
+        box.add(deleteTask, 4, 0);
         return box;
     }
     
     
-     /**
+    private void updateAllUserTabs() {
+        // tabs with always same content
+        choresLayout.setCenter(getOpenTaskScreen());
+        archiveLayout.setCenter(getDoneTaskScreen());        
+        settingsPageLayout.setCenter(getSettingsScreen());
+        
+        // check start tab content based on logged in status
+        if (this.logic.getCurrentUser() != null) {
+            loginPageLayout.setCenter(getLoggedInScreen());
+        } else {
+            loginPageLayout.setCenter(getLoginScreen());
+        }
+    }
+    
+    
+    /**
       * Metodi aloittaa graafisen käyttöliittymän suorituksen 
       * ja kutsuu ensimmäisenä sisäänkirjautumissivua
       */   
@@ -493,7 +690,8 @@ public class FamilyToDo extends Application {
         loginTab.setText("Aloitus");
         tabs.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
         taskListTab.setText("Avoimet");
-        doneTasksTab.setText("Tehdyt");        
+        doneTasksTab.setText("Tehdyt");      
+        settingsTab.setText("Asetukset");
         
         
         loginPageLayout.setCenter(getLoginScreen());
@@ -507,12 +705,14 @@ public class FamilyToDo extends Application {
         archiveLayout.setCenter(getDoneTaskScreen());
         doneTasksTab.setContent(archiveLayout);
         
+        settingsPageLayout.setCenter(getSettingsScreen());
+        settingsTab.setContent(settingsPageLayout);
+        
         tabs.getTabs().add(loginTab);
         tabs.getTabs().add(taskListTab);
         tabs.getTabs().add(doneTasksTab);
+        tabs.getTabs().add(settingsTab);
         
-        choresLayout.setCenter(getOpenTaskScreen());
-        archiveLayout.setCenter(getDoneTaskScreen());
         
         
         Scene loginScene = new Scene(tabs, width, heigth);                
@@ -524,17 +724,17 @@ public class FamilyToDo extends Application {
         mainStage.show();        
                  
     }
+    
     /**
      * Metodi suorittaa ohjelman lopetustoiminnot sulkeuduttaessa
      */
     @Override
     public void stop() {      
-        System.out.println("sovellus sulkeutuu");
+
     } 
     
     
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) {        
         launch(args);                
     }
     

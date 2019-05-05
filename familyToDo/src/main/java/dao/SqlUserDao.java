@@ -1,72 +1,115 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dao;
 
-import domain.User;
+import domain.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author karhunko
- */
-public class SqlUserDao implements UserDao {
-    private ArrayList<User> users;
+
+public class SqlUserDao implements UserDao {    
+    private Database database;
     
-    public SqlUserDao() {
-        this.users = new ArrayList<>();
+    public SqlUserDao(Database database) {              
+        this.database = database;
+    }
+    
+    @Override
+    public void addOne(User user) throws SQLException {
+        String insertSQL = "INSERT INTO Users \n"
+                + "(name, username, password) \n"
+                + "VALUES (?, ?, ?)";
         
-        this.users.add(new User("pete", "petri-man", "pass10"));
-        this.users.add(new User("etep", "petri-man99", "pass99"));
-        this.users.add(new User("peteInit", "petri-man2", "pass111"));
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(insertSQL);
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getUsername());
+            stmt.setString(3, user.getPassword());
+            stmt.executeUpdate();
+        }
+        
     }
     
     @Override
-    public void addOne(User user) {
-        this.users.add(user);
-    }
-    
-    @Override
-    public User findByName(String user) throws Exception {
-        for (User u : this.users) {
-            if (u.getName().equals(user)) {
-                return u;
+    public User findByName(String user) throws SQLException {
+        String searchUser = "SELECT * FROM Users WHERE username = ?";
+        
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(searchUser);
+            stmt.setString(1, user);
+            
+            ResultSet res = stmt.executeQuery();
+            
+            if (res.next()) {
+                User received = new User(res.getInt("id"), 
+                                    res.getString("name"),
+                                    res.getString("username"),
+                                    res.getString("password"));
+                return received;
             }
         }
         return null;
     }
 
-    @Override
-    public void changeUserName(String task) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
-    public void changePassword(String password) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public User findOne(Integer id) throws SQLException {
+        String searchUser = "SELECT * FROM Users WHERE id = ?";
+        
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(searchUser);
+            stmt.setInt(1, id);
+            
+            ResultSet res = stmt.executeQuery();
+            
+            if (res.next()) {
+                User received = new User(res.getInt("id"), 
+                                    res.getString("name"),
+                                    res.getString("username"),
+                                    res.getString("password"));
+                return received;
+            }
+        }
+        return null;
     }
 
+    
+    
     @Override
-    public User findOne(String key) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<User> findAll()  throws SQLException {
+        List<User> all = new ArrayList<>();
+        String searchUser = "SELECT * FROM Users";
+        
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(searchUser);
+            
+            
+            ResultSet res = stmt.executeQuery();
+            
+            while (res.next()) {
+                User received = new User(res.getInt("id"), 
+                                    res.getString("name"),
+                                    res.getString("username"),
+                                    res.getString("password"));
+                all.add(received);
+            }
+        }
+        
+        return all;
     }
 
-    @Override
-    public List<User> findAll()  {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
+    
     @Override
     public User saveOrUpdate(User object) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Kept due to interface compliance and future expansions
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
-    public void delete(String key) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(Integer id) throws Exception {
+        //Kept due to interface compliance and future expansions
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
 }

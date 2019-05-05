@@ -1,41 +1,105 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package domain;
 
 import java.time.LocalDate;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 
 
-/**
- *
- * @author karhunko
- */
+
 public class Todo implements Comparable<Todo> {    
+    private Integer taskId;
     private String task;
     private LocalDate dueDate;
     private LocalDate startDate;
     private LocalDate doneDate;
     private Boolean completed;    
-    private User user;
-
+    private Integer userId;
+    private Integer defaultDuration;
     
-    public Todo(String task, User user) {
+    /**
+     * Luo uuden tehtävän nimen ja käyttäjän perusteella. 
+     * Tehtävän määräpäivä tulee kirjautuneen käyttäjän oletusasetuksista.
+     * Tehtävän aloituspäivä on luontipäivä.
+     * Uusi tehtävä on oletusarvoisesti tekemätön
+     * 
+     * @param task tehtävän nimi
+     * @param user käyttäjän id
+     * @param settings käyttäjän oletusasetukset tehtävien kestolle
+     */
+    
+    public Todo(String task, int user, UserPreferences settings) {
         this.task = task;        
-        this.user = user;
+        this.userId = user;
         this.completed = false;
-        this.dueDate = LocalDate.now().plusDays(2);
+        this.defaultDuration = settings.getDefaultDuration();
+        this.dueDate = LocalDate.now().plusDays(this.defaultDuration);
+        this.startDate = LocalDate.now();
     }
     
-    public Todo(String task, User user, LocalDate dueDate) {
+    /**
+     * Luo uuden tehtävän kaikilla parametreilla. 
+     * Jos tehtävä merkitään tehdyksi ja uudelleen tekemättömäksi, niin 
+     * uusi määräpäivä määräytyy alkuperäisen aloituspäivän ja määräpäivän 
+     * erotuksen perusteella.
+     * 
+     * @param id tehtävän id
+     * @param task tehtävän nimi
+     * @param user käyttäjän id
+     * @param dueDate tehtävän määräpäivä
+     * @param startDate tehtävän aloituspäivä
+     * @param doneDate päivä, jolloin tehtävä merkitty tehdyksi
+     * @param completed tehtävän status, true jos tehty
+     */
+    public Todo(int id, String task, int user, 
+                LocalDate dueDate, LocalDate startDate,
+                LocalDate doneDate, Boolean completed
+                ) {
+        this.taskId = id;
         this.task = task;        
-        this.user = user;
-        this.completed = false;
+        this.userId = user;
+        this.completed = completed;        
         this.dueDate = dueDate;
+        this.startDate = startDate;
+        this.doneDate = doneDate;     
+        int duration = (int) DAYS.between(startDate, dueDate);
+        if (duration < 0) {
+            duration = 0;
+        }
+        this.defaultDuration = duration;
     }
     
+    /**
+     * Luo uuden tehtävän nimen ja käyttäjän perusteella. 
+     * Tehtävän määräpäivä tulee kirjautuneen käyttäjän oletusasetuksista.
+     * Uusi tehtävä on oletusarvoisesti tekemätön
+     * @param task tehtävän nimi
+     * @param user käyttäjän id
+     * @param dueDate tehtävän määräpäivä
+     */   
+//    public Todo(String task, int user, LocalDate dueDate) {
+//        this.task = task;        
+//        this.userId = user;
+//        this.completed = false;
+//        this.dueDate = dueDate;
+//        
+//        LocalDate createdDate = LocalDate.now();
+//        
+//        int duration = (int) DAYS.between(createdDate, dueDate);
+//        if (duration < 0) {
+//            duration = 0;
+//        }
+//        this.defaultDuration = duration;
+//    }
+    
+    
+    public Integer getDefaultDuration() {
+        return defaultDuration;
+    }
+
+    public void setDefaultDuration(Integer defaultDuration) {
+        this.defaultDuration = defaultDuration;
+    }
     
     public String getTask() {
         return task;
@@ -72,15 +136,16 @@ public class Todo implements Comparable<Todo> {
         this.doneDate = LocalDate.now();
     }
 
-    public User getUser() {
-        return user;
+    public Integer getUser() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(int user) {
+        this.userId = user;
     }
     
     
+    @Override
     public int compareTo(Todo next) {
         if (this.isCompleted() && !next.isCompleted()) {
             return 1;
@@ -88,19 +153,10 @@ public class Todo implements Comparable<Todo> {
             return -1;
         // done tasks
         } else if (this.isCompleted() && next.isCompleted()) {             
-            // first by done date
-            if (this.doneDate.equals(next.doneDate)) {
-                // then by due date
-                if (this.dueDate.equals(next.dueDate)) {
-                    // finally by name
-                    return this.task.compareTo(next.task);
-                }
-                return -1 * dueDate.compareTo(next.dueDate);
-            } else {                
-                return -1 * doneDate.compareTo(next.doneDate);
-            }                                        
-        // both undone
-        } else {
+            
+            return compareSameCompletionStatuses(next);
+            
+        } else { // both undone
             if (this.dueDate.equals(next.dueDate)) {
                 // finally by name
                 return this.task.compareTo(next.task);
@@ -109,30 +165,41 @@ public class Todo implements Comparable<Todo> {
         }        
     }
     
-    /**
-     * @return the doneDate
-     */
+    private int compareSameCompletionStatuses(Todo next) {
+        // first by done date
+        if (this.doneDate.equals(next.doneDate)) {
+            // then by due date
+            if (this.dueDate.equals(next.dueDate)) {
+                // finally by name
+                return this.task.compareTo(next.task);
+            }
+            return -1 * dueDate.compareTo(next.dueDate);
+        } else {                
+            return -1 * doneDate.compareTo(next.doneDate);
+        }  
+    }
+    
+    
+    public Integer getTaskId() {
+        return this.taskId;
+    }
+    
+    
     public LocalDate getDoneDate() {
         return doneDate;
     }
 
-    /**
-     * @param doneDate the doneDate to set
-     */
+    
     public void setDoneDate(LocalDate doneDate) {
         this.doneDate = doneDate;
     }
 
-    /**
-     * @return the completed
-     */
+    
     public Boolean getCompleted() {
         return completed;
     }
 
-    /**
-     * @param completed the completed to set
-     */
+    
     public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
@@ -143,18 +210,14 @@ public class Todo implements Comparable<Todo> {
         } else {
             this.completed = false;
             this.doneDate = null;
-            changeDueDate(LocalDate.now().plusDays(2));
+            changeDueDate(LocalDate.now().plusDays(this.defaultDuration));
         }
         
     }
-    
-//    @Override
-//    public String toString() {
-//        return "Todo{" + "task=" + task + ", endDate=" + dueDate 
-//                + ", startDate=" + startDate + ", doneDate=" + doneDate 
-//                + ", completed=" + completed + ", user=" + user.toString() + '}';
-//    }
 
+
+    
+    
     
     
 }

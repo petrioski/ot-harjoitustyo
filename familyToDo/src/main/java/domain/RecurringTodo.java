@@ -6,19 +6,32 @@ import java.time.LocalDate;
 public class RecurringTodo extends Todo  {
     private int recurringInterval;
 
-    public RecurringTodo(String task, User user) {
-        super(task, user);
-        recurringInterval = 7;
+    public RecurringTodo(String task, int user, UserPreferences settings) {
+        super(task, user, settings);
+        recurringInterval = settings.getRecurringInterval();
     }
 
-    public RecurringTodo(String task, User user, int days) {
-        super(task, user);
+    public RecurringTodo(String task, int user
+                        , UserPreferences settings, int days) {
+        super(task, user, settings);
         recurringInterval = days;
     }
     
+    public RecurringTodo(int id, String task, int user, LocalDate dueDate, 
+                LocalDate startDate, LocalDate doneDate, Boolean completed,
+                int days) {
+        super(id, task, user, dueDate, startDate, doneDate, completed);
+        this.recurringInterval = days;
+    }
+    
     // set recurring freq after task name
-    @Override
-    public String getTask() {
+    
+    public String getTaskTitle() {
+        if (super.getDoneDate() != null) {
+            return super.getTask() 
+                    + " (" + this.recurringInterval + " pv,"
+                    + " edell. " + super.getDoneDate() + ")";
+        }
         return super.getTask() + " (" + this.recurringInterval + " pv)";
     }
     
@@ -38,8 +51,7 @@ public class RecurringTodo extends Todo  {
     @Override
     public void setCompleted() {
         super.setCompleted();
-        super.changeDueDate(super.getDoneDate().plusDays(recurringInterval));
-        //super.toggleCompleted();
+        super.changeDueDate(super.getDoneDate().plusDays(recurringInterval));        
     }
     
     
@@ -54,11 +66,7 @@ public class RecurringTodo extends Todo  {
         return recurringInterval;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + " repeat interval " + this.recurringInterval;
-    }
-
+    
     
 
 }
