@@ -18,7 +18,7 @@ Tietokantojen luontia ja käyttöä sekä Dao-luokkien toimintaa on testattu hy�
 
 ### testikattavuus
 
-dao ja domain -pakkausten kokonaiskattavuus on 88% metodeille ja 89% ehtolausekkeiden haarautumille. Pääosa testaamattajääneistä tapauksista on suoraviivaisia setteri- ja getteri -metodeja.
+dao ja domain -pakkausten kokonaiskattavuus on 88% riveille ja 89% ehtolausekkeiden haarautumille. Pääosa testaamattajääneistä tapauksista on suoraviivaisia setteri- ja getteri -metodeja.
 
 ![kattavuus](media/testikattavuus.png)
 
