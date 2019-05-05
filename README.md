@@ -33,35 +33,35 @@ Sovellus on tehty Maven-projektina, joten oleellisimmat toiminnot voi suorittaa 
 #### Testaus
 
 Testaus käynnistyy komennolla
-'''
+```
 mvn test
-'''
+```
 
 #### Testikattavuus
 
 Jacocon testikattavuusraportti on saatavilla html-tiedostona kansiosta target/site/jacoco/index.html
 
 Raportti luodaan komennolla
-'''
-mvn jacoco:report
-'''
 
+```
+mvn jacoco:report
+```
 #### Jar-tiedosto
 
 Suoritettavan jar-tiedoston luonti komennolla
 
-'''
+```
 mvn package
-'''
+```
 
 jar-paketti syntyy target-kansioon nimellä familyToDo-1.0-SNAPSHOT.jar
 
 #### JavaDoc
 
 JavaDocin luonti komennolla
-'''
+```
 mvn javadoc:javadoc
-'''
+```
 
 index.html -tiedosto löytyy kansiosta target/site/apidocs
 
@@ -69,7 +69,7 @@ index.html -tiedosto löytyy kansiosta target/site/apidocs
 
 Projektissa on käytetty checkstyle-tyylitiedostoa ja sen mukaiset tarkistukset voi generoida komennolla
 
-'''
+```
 mvn jxr:jxr checkstyle:checkstyle
-'''
+```
 checkstyle.html -tiedosto syntyy kansioon target/site
