@@ -11,15 +11,18 @@ import org.junit.Test;
 
 public class RecurringTodoTest {
     User testCase;
+    UserPreferences pref;
     RecurringTodo baseCaseTask, modifiedTask;
     
     
     
     @Before
     public void setUp() {
-        testCase = new User("testPerson", "doWork", "pass123");                
-        baseCaseTask = new RecurringTodo("task", testCase);
-        modifiedTask = new RecurringTodo("task", testCase, 10);        
+        Integer userId = 2;
+        testCase = new User(userId,"testPerson", "doWork", "pass123");    
+        pref = new UserPreferences(userId);
+        baseCaseTask = new RecurringTodo("task", testCase.getId(), pref);
+        modifiedTask = new RecurringTodo("task", testCase.getId(), pref, 10);        
     }
     
     @Test
@@ -32,10 +35,8 @@ public class RecurringTodoTest {
         assertThat(modifiedTask.getRecurringInterval(), is(10));
     }
     
-    @Test
-    public void testRecurringTodosName() {
-        assertThat(modifiedTask.getTask(), is("task (10 pv)"));
-    }
+    
+    
     
     @Test
     public void testChangingCustomInterval() {        
@@ -54,6 +55,18 @@ public class RecurringTodoTest {
         assertThat(modifiedTask.isCompleted(), is(true));
     }
     
+    
+    @Test
+    public void taskTitleReturnsInterval() {
+        assertThat(modifiedTask.getTaskTitle().contains("10"), is(true));
+    }
+    
+    @Test
+    public void testTitleForDoneTaskReturnsDate() {
+        modifiedTask.toggleCompleted();
+        String thisYear = "" + LocalDate.now().getYear();
+        assertThat(modifiedTask.getTaskTitle().contains(thisYear), is(true));
+    }
     
     @Test
     public void testDoneTaskReturnsTrueForPastTask() {

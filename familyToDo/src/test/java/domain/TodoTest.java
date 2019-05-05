@@ -14,55 +14,51 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 
-/**
- *
- * @author karhunko
- */
+
 public class TodoTest {
     User testCase;
     Todo baseCase;
-    
+    UserPreferences pref;
     
     
     @Before
     public void setUp() {
-        testCase = new User("testPerson", "doWork", "pass123");        
+        testCase = new User(1, "testPerson", "doWork", "pass123");        
+        pref = new UserPreferences(1);
     }
     
     @Test
     public void createTask() {
-        Todo newTodo = new Todo("Do the dishes", testCase);
+        Todo newTodo = new Todo("Do the dishes", testCase.getId(), pref);
         assertThat(newTodo.getTask(), is("Do the dishes"));
     }
 
     @Test
     public void newTaskIsNotDone() {
-        Todo newTodo = new Todo("Do the dishes", testCase);
+        Todo newTodo = new Todo("Do the dishes", testCase.getId(), pref);
         assertThat(newTodo.isCompleted(), is(false));
     }
     
     @Test
     public void doneTaskReturnsTrue() {
-        Todo newTodo = new Todo("Do the dishes", testCase);
+        Todo newTodo = new Todo("Do the dishes", testCase.getId(), pref);
         newTodo.setCompleted();
         assertThat(newTodo.isCompleted(), is(true));
     }
     
     @Test
     public void taskNamechanged() {
-        Todo newTodo = new Todo("Do the dihes", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);
         assertThat(newTodo.getTask(), is("Do the dihes"));
         newTodo.changeTaskName("Do the dishes");        
         assertThat(newTodo.getTask(), is("Do the dishes"));
     }
     
     @Test
-    public void sortingUndoneTasksSameDue() {
-        LocalDate today = LocalDate.now();
-        LocalDate yesterday = today.minusDays(1);
+    public void sortingUndoneTasksSameDue() {        
         
-        Todo newTodo = new Todo("Do the dihes", testCase);
-        Todo anotherTask = new Todo("vacuum floors", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);
+        Todo anotherTask = new Todo("vacuum floors", testCase.getId(), pref);
               
         assertThat(newTodo.compareTo(anotherTask), lessThan(0));
         
@@ -70,11 +66,11 @@ public class TodoTest {
     
     @Test
     public void sortingUndoneTasksDifferentDue() {
-        Todo newTodo = new Todo("Do the dihes", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);
         
         LocalDate nextDay = newTodo.getEndDate().plusDays(1);
-        Todo anotherTask = new Todo("Do the ", testCase, nextDay);
-              
+        Todo anotherTask = new Todo("Do the ", testCase.getId(), pref);
+        anotherTask.changeDueDate(nextDay);
         assertThat(newTodo.compareTo(anotherTask), lessThan(0));
         
     }
@@ -83,10 +79,10 @@ public class TodoTest {
     @Test
     public void sortingDoneTasksDifferentDoneDate() {
         LocalDate today = LocalDate.now();
-        Todo newTodo = new Todo("Do the dihes", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);
         
         LocalDate nextDay = newTodo.getEndDate().plusDays(1);
-        Todo anotherTask = new Todo("Do the ", testCase, nextDay);
+        Todo anotherTask = new Todo("Do the ", testCase.getId(), pref);
         
         newTodo.toggleCompleted();
         anotherTask.toggleCompleted();
@@ -101,10 +97,10 @@ public class TodoTest {
     @Test
     public void sortingDoneTasksDifferentDue() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);
         
         LocalDate nextDay = newTodo.getEndDate().plusDays(1);
-        Todo anotherTask = new Todo("Do the ", testCase, nextDay);
+        Todo anotherTask = new Todo("Do the ", testCase.getId(), pref);
         
         newTodo.toggleCompleted();
         anotherTask.toggleCompleted();
@@ -116,8 +112,9 @@ public class TodoTest {
     @Test
     public void sortingDoneTasksByName() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
-        Todo anotherTask = new Todo("Do the waxing of floors", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
+        Todo anotherTask = new Todo("Do the waxing of "
+                                    + "floors", testCase.getId(), pref);
         
         newTodo.toggleCompleted();
         anotherTask.toggleCompleted();
@@ -129,8 +126,9 @@ public class TodoTest {
     @Test
     public void testBothDoneAreDone() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
-        Todo anotherTask = new Todo("Do the waxing of floors", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
+        Todo anotherTask = new Todo("Do the waxing "
+                                    + "of floors", testCase.getId(), pref);
         
         newTodo.toggleCompleted();
         anotherTask.toggleCompleted();
@@ -143,11 +141,9 @@ public class TodoTest {
     @Test
     public void testSortingBothAreTheSame() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
-        Todo anotherTask = new Todo("Do the dihes", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
+        Todo anotherTask = new Todo("Do the dihes", testCase.getId(), pref);
         
-//        newTodo.toggleCompleted();
-//        anotherTask.toggleCompleted();
         
         assertThat(newTodo.compareTo(anotherTask), is(0));  
         
@@ -157,11 +153,11 @@ public class TodoTest {
     @Test
     public void sortingDoneWithUndone() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
-        Todo anotherTask = new Todo("Do the waxing of floors", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
+        Todo anotherTask = new Todo("Do the waxing "
+                                    + " of floors", testCase.getId(), pref);
         
-        newTodo.toggleCompleted();
-        //anotherTask.toggleCompleted();
+        newTodo.toggleCompleted();        
         
         assertThat(newTodo.compareTo(anotherTask), greaterThan(0));
         
@@ -171,8 +167,9 @@ public class TodoTest {
     @Test
     public void sortingUndoneWithDone() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
-        Todo anotherTask = new Todo("Do the waxing of floors", testCase);
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
+        Todo anotherTask = new Todo("Do the waxing "
+                                + " of floors", testCase.getId(), pref);
         
         //newTodo.toggleCompleted();
         anotherTask.toggleCompleted();
@@ -184,7 +181,7 @@ public class TodoTest {
     @Test
     public void settingCompleted() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
         
         assertThat(newTodo.isCompleted(), is(false));
         
@@ -199,7 +196,7 @@ public class TodoTest {
     @Test
     public void testTogglingUnDone() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);        
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);        
         
         assertThat(newTodo.isCompleted(), is(false));
         
@@ -212,7 +209,7 @@ public class TodoTest {
     @Test
     public void testTogglingDone() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);                
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);                
         assertThat(newTodo.isCompleted(), is(false));
         
         newTodo.toggleCompleted();        
@@ -229,7 +226,7 @@ public class TodoTest {
     @Test
     public void testTogglingDoneToUndone() {
         
-        Todo newTodo = new Todo("Do the dihes", testCase);                        
+        Todo newTodo = new Todo("Do the dihes", testCase.getId(), pref);                        
         
         newTodo.setCompleted();                
         

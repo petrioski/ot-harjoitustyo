@@ -9,16 +9,18 @@ import org.junit.Test;
 
 public class UserTest {
     User testCase, anotherUser, sameButDifferent;
+    UserPreferences pref;
     Todo baseCase;
     
     
     
     @Before
     public void setUp() {
-        testCase = new User("testPerson", "doWork", "pass123");     
-        anotherUser = new User("testPerson", "doWork2", "pass123");  
-        sameButDifferent = new User("testPerson", "doWork", "pass123");     
-        baseCase = new Todo("task", testCase);
+        testCase = new User(1, "testPerson", "doWork", "pass123");     
+        anotherUser = new User(2, "testPerson", "doWork2", "pass123");  
+        sameButDifferent = new User(3, "testPerson", "doWork", "pass123");  
+        pref = new UserPreferences(testCase.getId());
+        baseCase = new Todo("task", testCase.getId(), pref);
     }
  
     @Test
