@@ -30,6 +30,7 @@ Sovelluksella on vain yhdenlaisia käyttäjiä, normaalikäyttäjiä, jotka voiv
 * käyttäjä voi päivittää uusien tehtävien oletusasetuksia
   * normaaleille tehtäville voi asettaa oletuspituuden erääntymiselle
   * toistuville tehtäville lisäksi oletusuusiutumisvälin
+* Tehtävät säilyvät pysyväistallennuksessa seuraavaan käyttökertaan
 * käyttäjä voi kirjautua ulos 
 
 ## Jatkokehitysideoita
